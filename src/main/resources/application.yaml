@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: my_bachelor_motors
+  datasource:
+    url: jdbc:mariadb://localhost:3307/my_bachelor_motors
+    username: root
+    password: motdepasse
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
