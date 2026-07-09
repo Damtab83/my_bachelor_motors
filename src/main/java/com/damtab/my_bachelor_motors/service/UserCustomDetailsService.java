@@ -22,7 +22,7 @@ public class UserCustomDetailsService implements UserDetailsService {
         UserCustom myCustom = userCustomRepository.findByEmail(email);
 
         if(myCustom == null) {
-            throw new UsernameNotFoundException("User inexistant " + email);
+            throw new UsernameNotFoundException("User inexistant avec l'email : " + email);
         }
         return new User(myCustom.getEmail(), myCustom.getPassword(),
                 Collections.singletonList(new SimpleGrantedAuthority(myCustom.getRole().toString())))                                                                                                                                                                                                                               ;
