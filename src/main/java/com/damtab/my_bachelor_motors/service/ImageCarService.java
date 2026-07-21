@@ -4,10 +4,12 @@ import com.damtab.my_bachelor_motors.entity.ImageCar;
 import com.damtab.my_bachelor_motors.exception.ResourceNotFoundException;
 import com.damtab.my_bachelor_motors.repository.ImageCarRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 @RequiredArgsConstructor
 public class ImageCarService {
 
