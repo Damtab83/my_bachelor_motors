@@ -30,7 +30,7 @@ public class DocumentService {
                         new ResourceNotFoundException("Aucun document trouvé"));
     }
 
-    public Document downloadFile(MultipartFile newFile) throws IOException {
+    public Document uploadFile(MultipartFile newFile) throws IOException {
 
         if (!"application/pdf".equals(newFile.getContentType())) {
             throw new IllegalArgumentException("Le fichier doit être un PDF.");

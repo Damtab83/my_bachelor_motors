@@ -15,7 +15,7 @@ public class OldCarService {
 
     private final OldCarRepository oldCarRepository;
 
-    public List<OldCar> getAllCars() {
+    public List<OldCar> getAllOldCars() {
         List<OldCar> oldCars = oldCarRepository.findAll();
         if(oldCars.isEmpty()) {
             throw new ResourceNotFoundException("Aucunes anciennes voitures trouvées");

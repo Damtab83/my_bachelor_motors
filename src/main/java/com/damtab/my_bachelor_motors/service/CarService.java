@@ -40,7 +40,7 @@ public class CarService {
         return toDelete;
     }
 
-    public void updateCar(Long id, Car newCar) {
+    public Car updateCar(Long id, Car newCar) {
         Car oldCar = this.getCarById(id);
         if(oldCar != null) {
             oldCar.setBrand(newCar.getBrand());
@@ -50,6 +50,9 @@ public class CarService {
             oldCar.setPrice(newCar.getPrice());
             oldCar.setTestDriving(newCar.getTestDriving());
             oldCar.setImageCars(newCar.getImageCars());
+
+            carRepository.save(oldCar);
         }
+        return oldCar;
     }
 }

@@ -29,11 +29,11 @@ public class DocumentController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getDocumentById(@PathVariable Long id) {
         Document doc = documentService.getDocument(id);
-        return doc == null ? ResponseEntity.status(HttpStatus.OK).body(doc) :
+        return doc != null ? ResponseEntity.status(HttpStatus.OK).body(doc) :
                 ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @GetMapping("/download")
+    @GetMapping("/{id}/download")
     public ResponseEntity<byte[]> download(@PathVariable Long id) {
         Document doc = documentService.getDocument(id);
 
@@ -44,9 +44,9 @@ public class DocumentController {
                 .body(doc.getContenu());
     }
 
-    @PostMapping
+    @PostMapping("/upload")
     public ResponseEntity<String> upload(@RequestParam MultipartFile file) throws IOException {
-        documentService.downloadFile(file);
+        documentService.uploadFile(file);
         return ResponseEntity.ok("Document enregistré");
     }
 }

@@ -19,7 +19,7 @@ public class OldCarController {
 
     @GetMapping
     public ResponseEntity<Object> getAllOldCar() {
-        List<OldCar> myListOldCar = oldCarService.getAllCars();
+        List<OldCar> myListOldCar = oldCarService.getAllOldCars();
         return ResponseEntity.status(HttpStatus.OK).body(myListOldCar);
     }
 
