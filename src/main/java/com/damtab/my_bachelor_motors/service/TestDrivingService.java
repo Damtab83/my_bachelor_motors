@@ -25,7 +25,7 @@ public class TestDrivingService {
     }
     public TestDriving getTestDriving(Long id) {
         Optional<TestDriving> testDrive = testDrivingRepository.findById(id);
-        return testDrivingRepository.findById(id).orElse(null);
+        return testDrive.orElse(null);
     }
 
     public void createTestDriving(TestDriving newTest) {

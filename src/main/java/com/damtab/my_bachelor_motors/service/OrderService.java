@@ -47,6 +47,8 @@ public class OrderService {
             oldOrder.setOfferType(newOrder.getOfferType());
             oldOrder.setTradeOldCar(newOrder.getTradeOldCar());
             oldOrder.setSubscriptionInsurance(newOrder.isSubscriptionInsurance());
+
+            orderRepository.save(oldOrder);
         }
     }
 }
