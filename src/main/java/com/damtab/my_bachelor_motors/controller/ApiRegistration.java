@@ -10,4 +10,5 @@ public interface ApiRegistration {
     final String REST_TESTDRIVING = "/essai-voiture";
     final String REST_USER_CUSTOM = "/client";
     final String REST_DOCUMENT = "/document";
+    final String REST_AUTHENTICATION = "/authentification";
 }

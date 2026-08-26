@@ -22,7 +22,4 @@ public class UserCustom {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
-    public void setRole(Role role) {
-        this.role = Role.ROLE_CUSTOM;
-    }
 }

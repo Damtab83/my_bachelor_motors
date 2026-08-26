@@ -31,7 +31,7 @@ public class UserCustomController {
                 ResponseEntity.status(HttpStatus.OK).body(myUserCustom);
     }
 
-    @DeleteMapping("/id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUserCustom(@PathVariable Long id) {
         Boolean isDelete = userCustomService.deleteUserCustom(id);
         return isDelete ? ResponseEntity.status(HttpStatus.OK).build() :

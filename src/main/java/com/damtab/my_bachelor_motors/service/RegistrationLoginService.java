@@ -44,7 +44,8 @@ public class RegistrationLoginService {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userCustom.email(), userCustom.password()));
             String token = jwtUtils.generateToken(userCustom.email());
-            return ResponseEntity.ok(token);
+            return ResponseEntity.ok(
+                    token);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email ou mot de passe invalide");
         }
