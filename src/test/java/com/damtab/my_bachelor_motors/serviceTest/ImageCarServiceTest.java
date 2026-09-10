@@ -1,6 +1,7 @@
 package com.damtab.my_bachelor_motors.serviceTest;
 
 import com.damtab.my_bachelor_motors.entity.ImageCar;
+import com.damtab.my_bachelor_motors.exception.ResourceNotFoundException;
 import com.damtab.my_bachelor_motors.repository.ImageCarRepository;
 import com.damtab.my_bachelor_motors.service.ImageCarService;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,10 +65,22 @@ public class ImageCarServiceTest {
     public void getImageCarById_shouldReturnImageCar_whenExist() {
 
         Mockito.when(imageCarRepository.findById(55L)).thenReturn(Optional.of(testImageCar));
-        Optional<ImageCar> result = imageCarService.getImageCarById(55L);
+        ImageCar result = imageCarService.getImageCarById(55L);
         assertNotNull(result);
-        assertEquals("image_BMW", result.get().getName());
-        assertEquals(55555, result.get().getSize());
+        assertEquals("image_BMW", result.getName());
+        assertEquals(55555, result.getSize());
+    }
+
+    @Test
+    public void getImageCarById_shouldReturnFalse_whenNotExist() {
+
+        Mockito.when(imageCarRepository.findById(99L)).thenReturn(Optional.empty());
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class,
+                () -> imageCarService.getImageCarById(99L)
+        );
+
+        assertEquals("Aucune image trouvée", exception.getMessage());
     }
 
     @Test

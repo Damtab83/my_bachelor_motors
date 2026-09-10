@@ -64,7 +64,7 @@ public class ImageCarControllerTest {
         imageCar.setName("image_BMW");
         imageCar.setSize(333);
 
-        Mockito.when(imageCarService.getImageCarById(33L)).thenReturn(Optional.of(imageCar));
+        Mockito.when(imageCarService.getImageCarById(33L)).thenReturn(imageCar);
 
         mockMvc.perform(get("/api/image-voiture/33"))
                 .andExpect(status().isOk())

@@ -25,9 +25,9 @@ public class ImageCarController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getImageCarById (@PathVariable Long id) {
-        Optional<ImageCar> myImageCar = imageCarService.getImageCarById(id);
-        return myImageCar == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).build() :
-                ResponseEntity.status(HttpStatus.OK).body(myImageCar);
+        ImageCar myImageCar = imageCarService.getImageCarById(id);
+
+        return ResponseEntity.ok(getImageCarById(id));
     }
 
     @PostMapping

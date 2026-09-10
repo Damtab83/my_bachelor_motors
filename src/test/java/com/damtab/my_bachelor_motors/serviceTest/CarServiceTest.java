@@ -1,6 +1,7 @@
 package com.damtab.my_bachelor_motors.serviceTest;
 
 import com.damtab.my_bachelor_motors.entity.Car;
+import com.damtab.my_bachelor_motors.exception.ResourceNotFoundException;
 import com.damtab.my_bachelor_motors.repository.CarRepository;
 import com.damtab.my_bachelor_motors.service.CarService;
 import org.junit.jupiter.api.BeforeEach;
@@ -80,7 +81,19 @@ public class CarServiceTest {
         assertEquals(20L, result.getCarId());
         assertEquals("60CV", result.getMotorisation());
         assertEquals(2300, result.getPrice());
+    }
 
+    @Test
+    public void getCarById_shouldReturnFalse_whenCarNotExist() throws Exception {
+
+        Mockito.when(carRepository.findById(99L)).thenReturn(Optional.empty());
+
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class,
+                () -> carService.getCarById(99L)
+        );
+
+        assertEquals("Aucune voiture trouvée", exception.getMessage());
     }
 
     @Test
@@ -96,6 +109,15 @@ public class CarServiceTest {
         Boolean result = carService.deleteCar(10L);
         assertTrue(result);
         Mockito.verify(carRepository).deleteById(10L);
+    }
+
+    @Test
+    public void deleteCarById_shouldNotDeleteCar_whenCarNotExist() throws Exception {
+
+        Mockito.when(carRepository.existsById(99L)).thenReturn(false);
+        Boolean result = carService.deleteCar(99L);
+        assertFalse(result);
+        Mockito.verify(carRepository, Mockito.never()).deleteById(99L);
     }
 
     @Test

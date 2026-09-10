@@ -3,6 +3,7 @@ package com.damtab.my_bachelor_motors.serviceTest;
 import com.damtab.my_bachelor_motors.entity.Car;
 import com.damtab.my_bachelor_motors.entity.OfferType;
 import com.damtab.my_bachelor_motors.entity.Order;
+import com.damtab.my_bachelor_motors.exception.ResourceNotFoundException;
 import com.damtab.my_bachelor_motors.repository.OrderRepository;
 import com.damtab.my_bachelor_motors.service.OrderService;
 import org.junit.jupiter.api.BeforeEach;
@@ -98,6 +99,17 @@ public class OrderServiceTest {
     }
 
     @Test
+    public void getOrderById_shouldReturnFalse_whenNotExist() throws Exception {
+        Mockito.when(orderRepository.findById(99L)).thenReturn(Optional.empty());
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class,
+                () -> orderService.getOrderById(99L)
+        );
+
+        assertEquals("Aucune commande trouvée", exception.getMessage());
+    }
+
+    @Test
     public void createOrder_shouldReturn201_WhenOrderCreated() throws Exception {
         orderService.createOrder(order1);
         Mockito.verify(orderRepository).save(order1);
@@ -109,6 +121,14 @@ public class OrderServiceTest {
         Boolean result = orderService.deleteOrder(55L);
         assertTrue(result);
         Mockito.verify(orderRepository).deleteById(55L);
+    }
+
+    @Test
+    public void deleteOrderById_shouldNotDeleteOrder_whenOrderNotExist() throws Exception {
+        Mockito.when(orderRepository.existsById(99L)).thenReturn(false);
+        Boolean result = orderService.deleteOrder(99L);
+        assertFalse(result);
+        Mockito.verify(orderRepository, Mockito.never()).deleteById(99L);
     }
 
     @Test

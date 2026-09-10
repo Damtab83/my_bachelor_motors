@@ -2,6 +2,7 @@ package com.damtab.my_bachelor_motors.serviceTest;
 
 import com.damtab.my_bachelor_motors.entity.ImageCar;
 import com.damtab.my_bachelor_motors.entity.OldCar;
+import com.damtab.my_bachelor_motors.exception.ResourceNotFoundException;
 import com.damtab.my_bachelor_motors.repository.OldCarRepository;
 import com.damtab.my_bachelor_motors.service.OldCarService;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,6 +74,19 @@ public class OldCarServiceTest {
         assertNotNull(result);
         assertEquals(55L, result.get().getOldCarId());
         assertEquals(5000, result.get().getPrice());
+
+    }
+
+    @Test
+    public void getOldCarById_shouldReturnFalse_whenNotExist()throws Exception {
+
+        Mockito.when(oldCarRepository.findById(99L)).thenReturn(Optional.empty());
+
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class,
+                () -> oldCarService.getOldCarById(99L)
+        );
+        assertEquals("Aucune ancienne voiture trouvée", exception.getMessage());
 
     }
 

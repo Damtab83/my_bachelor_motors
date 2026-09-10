@@ -75,6 +75,35 @@ public class RegistrationLoginServiceTest {
     }
 
     @Test
+    public void registration_shouldFail_whenEmailAlreadyExists() {
+
+        RegisterUserCustomDto registerTest = new RegisterUserCustomDto(
+                "John",
+                "Doe",
+                "john.doe@test.fr",
+                "john1234"
+        );
+
+        Mockito.when(userCustomRepository.findByEmail("john.doe@test.fr"))
+                .thenReturn(new UserCustom());
+
+        ResponseEntity<?> response =
+                registrationLoginService.registerUserCustom(registerTest);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("L'utilisateur existe déjà", response.getBody());
+
+        Mockito.verify(userCustomRepository)
+                .findByEmail("john.doe@test.fr");
+
+        Mockito.verify(userCustomRepository, Mockito.never())
+                .save(Mockito.any(UserCustom.class));
+
+        Mockito.verify(passwordEncoder, Mockito.never())
+                .encode(Mockito.anyString());
+    }
+
+    @Test
     public void loginUserCustom_shouldReturnToken_whenCredentialsAreCorrect() {
 
         LoginUserCustomDto dto = new LoginUserCustomDto(

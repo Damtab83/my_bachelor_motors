@@ -40,6 +40,8 @@ public class DocumentServiceTest {
         testDocument.setContenu("%PDF-1.4 test".getBytes());
     }
 
+
+    // Test for Download PDF file
     @Test
     public void getAllDocument_shouldReturnList() {
 
@@ -67,6 +69,7 @@ public class DocumentServiceTest {
         assertArrayEquals("%PDF-1.4 test".getBytes(), result.getContenu());
     }
 
+    //Test for Upload PDF file
     @Test
     public void uploadFile_shouldSavePdf() throws Exception {
 

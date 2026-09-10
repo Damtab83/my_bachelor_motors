@@ -24,8 +24,12 @@ public class TestDrivingService {
         return testDrivingList;
     }
     public TestDriving getTestDriving(Long id) {
-        Optional<TestDriving> testDrive = testDrivingRepository.findById(id);
-        return testDrive.orElse(null);
+        return testDrivingRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Rendez-vous d'essai introuvable"
+                        ));
+
     }
 
     public void createTestDriving(TestDriving newTest) {

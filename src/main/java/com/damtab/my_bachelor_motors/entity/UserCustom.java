@@ -1,5 +1,6 @@
 package com.damtab.my_bachelor_motors.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,6 +18,7 @@ public class UserCustom {
 
     private String email;
 
+    @JsonIgnore
     private String password;
 
     @Enumerated(value = EnumType.STRING)

@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.ArrayList;
 
@@ -52,6 +53,19 @@ public class UserCustomDetailsServiceTest {
                 .stream()
                 .anyMatch(authority ->
                         authority.getAuthority().equals("ROLE_CUSTOM")));
+
+        Mockito.verify(userCustomRepository).findByEmail("john.doe@test.fr");
+    }
+
+    @Test
+    public void loadByUserName_shouldReturnFalse_whenUserNotExist() throws Exception {
+        Mockito.when(userCustomRepository.findByEmail("john.doe@test.fr")).thenReturn(null);
+        UsernameNotFoundException exception = assertThrows(
+                UsernameNotFoundException.class,
+                () -> userCustomDetailsService.loadUserByUsername("john.doe@test.fr")
+        );
+
+        assertEquals("User inexistant avec l'email : john.doe@test.fr", exception.getMessage());
 
         Mockito.verify(userCustomRepository).findByEmail("john.doe@test.fr");
     }

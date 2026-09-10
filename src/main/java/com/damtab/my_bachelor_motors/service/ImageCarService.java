@@ -25,14 +25,13 @@ public class ImageCarService {
         return images;
     }
 
-    public Optional<ImageCar> getImageCarById(Long id) {
+    public ImageCar getImageCarById(Long id) {
 
-        Optional<ImageCar> image = imageCarRepository.findById(id);
+        return imageCarRepository.findById(id)
+                .orElseThrow(()->
+           new ResourceNotFoundException ("Aucune image trouvée"));
 
-        if(image.isEmpty()) {
-            throw new ResourceNotFoundException ("Aucune image trouvée");
-        }
-        return image;
+
 
     }
 

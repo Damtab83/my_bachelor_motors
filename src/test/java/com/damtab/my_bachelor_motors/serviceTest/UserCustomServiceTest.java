@@ -2,6 +2,7 @@ package com.damtab.my_bachelor_motors.serviceTest;
 
 import com.damtab.my_bachelor_motors.entity.Role;
 import com.damtab.my_bachelor_motors.entity.UserCustom;
+import com.damtab.my_bachelor_motors.exception.ResourceNotFoundException;
 import com.damtab.my_bachelor_motors.repository.UserCustomRepository;
 import com.damtab.my_bachelor_motors.service.UserCustomService;
 import org.junit.jupiter.api.BeforeEach;
@@ -88,11 +89,31 @@ public class UserCustomServiceTest {
     }
 
     @Test
+    public void getUserCustomById_shouldReturnFalse_whenUserNotExist() throws Exception {
+        Mockito.when(userCustomRepository.findById(99L)).thenReturn(Optional.empty());
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class,
+                () -> userCustomService.getUserCustomById(99L)
+        );
+
+        assertEquals("Aucun client trouvé", exception.getMessage());
+    }
+
+    @Test
     public void deleteUserCustomById_whenUserCustomExist() throws Exception {
         Mockito.when(userCustomRepository.existsById(11L)).thenReturn(true);
         Boolean result = userCustomService.deleteUserCustom(11L);
         assertTrue(result);
         Mockito.verify(userCustomRepository).deleteById(11L);
+
+    }
+
+    @Test
+    public void deleteUserCustomById_whenUserNotExist() throws Exception {
+        Mockito.when(userCustomRepository.existsById(99L)).thenReturn(false);
+        Boolean result = userCustomService.deleteUserCustom(99L);
+        assertFalse(result);
+        Mockito.verify(userCustomRepository, Mockito.never()).deleteById(11L);
 
     }
 }

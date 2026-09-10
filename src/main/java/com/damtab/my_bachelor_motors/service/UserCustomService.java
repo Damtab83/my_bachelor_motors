@@ -17,7 +17,7 @@ public class UserCustomService {
     public List<UserCustom> getAllUserCustom() {
         List<UserCustom> userCustomers = userCustomRepository.findAll();
         if(userCustomers.isEmpty()) {
-            throw new ResourceNotFoundException("Aucuns Clients trouvés");
+            throw new ResourceNotFoundException("Aucuns clients trouvés");
         }
         return userCustomers;
     }
@@ -25,7 +25,7 @@ public class UserCustomService {
     public UserCustom getUserCustomById(Long id) {
         return userCustomRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Aucune voiture trouvée"));
+                        new ResourceNotFoundException("Aucun client trouvé"));
 
     }
 

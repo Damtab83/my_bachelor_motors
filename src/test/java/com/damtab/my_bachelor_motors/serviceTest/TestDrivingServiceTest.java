@@ -1,6 +1,7 @@
 package com.damtab.my_bachelor_motors.serviceTest;
 
 import com.damtab.my_bachelor_motors.entity.TestDriving;
+import com.damtab.my_bachelor_motors.exception.ResourceNotFoundException;
 import com.damtab.my_bachelor_motors.repository.TestDrivingRepository;
 import com.damtab.my_bachelor_motors.service.TestDrivingService;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,6 +72,17 @@ public class TestDrivingServiceTest {
         assertEquals(44L, result.getTestDrivingId());
         assertEquals(true, result.isConfirmed());
         assertEquals(LocalDateTime.of(2026, 8, 19, 15, 30), result.getTestDate());
+    }
+
+    @Test
+    public void getTesDrivingById_shouldReturnFalse_whenNotExist() throws Exception {
+        Mockito.when(testDrivingRepository.findById(99L)).thenReturn(Optional.empty());
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class,
+                () -> testDrivingService.getTestDriving(99L)
+        );
+
+        assertEquals("Rendez-vous d'essai introuvable", exception.getMessage());
     }
 
     @Test
