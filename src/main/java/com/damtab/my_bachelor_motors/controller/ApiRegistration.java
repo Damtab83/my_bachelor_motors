@@ -11,4 +11,6 @@ public interface ApiRegistration {
     final String REST_USER_CUSTOM = "/client";
     final String REST_DOCUMENT = "/document";
     final String REST_AUTHENTICATION = "/authentification";
+    final String REST_LOGIN = "/connexion";
+    final String REST_REGISTRATION = "/inscription";
 }

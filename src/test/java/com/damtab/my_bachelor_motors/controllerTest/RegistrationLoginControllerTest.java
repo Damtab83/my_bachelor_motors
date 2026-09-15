@@ -77,7 +77,7 @@ public class RegistrationLoginControllerTest {
                 .when(registrationLoginService)
                 .registerUserCustom(Mockito.any(RegisterUserCustomDto.class));
 
-        mockMvc.perform( post(ApiRegistration.REST_API + ApiRegistration.REST_AUTHENTICATION + "/register")
+        mockMvc.perform( post(ApiRegistration.REST_API + ApiRegistration.REST_AUTHENTICATION + ApiRegistration.REST_REGISTRATION)
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(registerDto)))
                 .andExpect(status().isBadRequest())
@@ -91,7 +91,7 @@ public class RegistrationLoginControllerTest {
                 .when(registrationLoginService)
                 .loginUserCustom(Mockito.any(LoginUserCustomDto.class));
 
-        mockMvc.perform( post(ApiRegistration.REST_API + ApiRegistration.REST_AUTHENTICATION + "/login")
+        mockMvc.perform( post(ApiRegistration.REST_API + ApiRegistration.REST_AUTHENTICATION + ApiRegistration.REST_LOGIN)
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(loginDto)) )
                 .andExpect(status().isOk()) .andExpect(content().string("mon-token-jwt"));
@@ -106,7 +106,7 @@ public class RegistrationLoginControllerTest {
                 .when(registrationLoginService)
                 .loginUserCustom(Mockito.any(LoginUserCustomDto.class));
 
-        mockMvc.perform( post(ApiRegistration.REST_API + ApiRegistration.REST_AUTHENTICATION + "/login")
+        mockMvc.perform( post(ApiRegistration.REST_API + ApiRegistration.REST_AUTHENTICATION + ApiRegistration.REST_LOGIN)
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(loginDto)))
                 .andExpect(status().isUnauthorized())

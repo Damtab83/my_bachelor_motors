@@ -19,6 +19,9 @@ public class TestDrivingController {
     @GetMapping
     public ResponseEntity<Object> getAllTestDriving () {
         List<TestDriving> myListTestDriving = testDrivingService.getAllTestDriving();
+        if(myListTestDriving == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.status(HttpStatus.OK).body(myListTestDriving);
     }
 

@@ -79,6 +79,13 @@ public class TestDrivingControllerTest {
     }
 
     @Test
+    public void getAllTestDriving_shouldReturnFalse() throws Exception {
+        Mockito.when(testDrivingService.getAllTestDriving()).thenReturn(null);
+        mockMvc.perform(get(ApiRegistration.REST_API + ApiRegistration.REST_TESTDRIVING))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void getTestDrivingById_shouldReturnTest_whenExist() throws Exception {
         Mockito.when(testDrivingService.getTestDriving(30L)).thenReturn(test1);
         mockMvc.perform(get(ApiRegistration.REST_API + ApiRegistration.REST_TESTDRIVING + "/30"))
@@ -86,6 +93,13 @@ public class TestDrivingControllerTest {
                 .andExpect(jsonPath("$.testDrivingId").value(30L))
                 .andExpect(jsonPath("$.confirmed").value(true))
                 .andExpect(jsonPath("$.testDate").value("2026-08-22T12:30:00"));
+    }
+
+    @Test
+    public void getTestDrivingById_shouldReturnFalse_whenNotExist() throws Exception {
+        Mockito.when(testDrivingService.getTestDriving(99L)).thenReturn(null);
+        mockMvc.perform(get(ApiRegistration.REST_API + ApiRegistration.REST_TESTDRIVING + "/99"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -106,7 +120,14 @@ public class TestDrivingControllerTest {
     }
 
     @Test
-    public void updatedTestDrivingById_shouldDeleteTest_whenTestExist()throws Exception {
+    public void deleteTestDrivingById_whenTestNotExist() throws Exception {
+        Mockito.when(testDrivingService.deleteTestDriving(99L)).thenReturn(false);
+        mockMvc.perform(delete(ApiRegistration.REST_API + ApiRegistration.REST_TESTDRIVING + "/99"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void updatedTestDrivingById_shouldUpdatedTest_whenTestExist()throws Exception {
         TestDriving newTest = new TestDriving();
         newTest.setTestDate(LocalDateTime.of(2026, 12,12,12,12));
         mockMvc.perform(put(ApiRegistration.REST_API + ApiRegistration.REST_TESTDRIVING + "/40")

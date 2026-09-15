@@ -97,6 +97,14 @@ public class OrderControllerTest {
     }
 
     @Test
+    public void getAllOrder_shouldReturnFalse() throws Exception {
+        Mockito.when(orderService.getAllOrders()).thenReturn(null);
+        mockMvc.perform(get(ApiRegistration.REST_API + ApiRegistration.REST_ORDER))
+                .andExpect(status().isNotFound());
+    }
+
+
+    @Test
     public void getOrderById_shouldReturnOrder() throws Exception {
         Mockito.when(orderService.getOrderById(33L)).thenReturn(order1);
         mockMvc.perform(get(ApiRegistration.REST_API + ApiRegistration.REST_ORDER + "/33"))
@@ -105,6 +113,13 @@ public class OrderControllerTest {
                 .andExpect(jsonPath("$.offerType").value("BUY"))
                 .andExpect(jsonPath("$.car.brand").value("FIAT"))
                 .andExpect(jsonPath("$.car.model").value("500X"));
+    }
+
+    @Test
+    public void getOrderById_shouldReturnFalse() throws Exception {
+        Mockito.when(orderService.getOrderById(99L)).thenReturn(null);
+        mockMvc.perform(get(ApiRegistration.REST_API + ApiRegistration.REST_ORDER + "/99"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -123,6 +138,13 @@ public class OrderControllerTest {
         Mockito.when(orderService.deleteOrder(55L)).thenReturn(true);
         mockMvc.perform(delete(ApiRegistration.REST_API + ApiRegistration.REST_ORDER + "/55"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void deleteOrderById_shouldReturnFalse_whenNotExist() throws Exception {
+        Mockito.when(orderService.deleteOrder(88L)).thenReturn(false);
+        mockMvc.perform(delete(ApiRegistration.REST_API + ApiRegistration.REST_ORDER + "/88"))
+                .andExpect(status().isNotFound());
     }
 
     @Test

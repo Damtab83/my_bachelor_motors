@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -63,6 +62,13 @@ public class OldCarControlerTest {
     }
 
     @Test
+    public void getAllOldCar_shouldReturnFalse() throws Exception {
+        Mockito.when(oldCarService.getAllOldCars()).thenReturn(null);
+        mockMvc.perform(get("/api/ancienne-voiture"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void getOldCarById_shouldReturnOldCar_whenExist() throws Exception {
 
         OldCar oldCarTest = new OldCar();
@@ -80,6 +86,13 @@ public class OldCarControlerTest {
                 .andExpect(jsonPath("$.model").value("X2"))
                 .andExpect(jsonPath("$.price").value(15000
                 ));
+    }
+
+    @Test
+    public void getAllOldCarById_shouldReturnFalse_whenNotExist() throws Exception {
+        Mockito.when(oldCarService.getOldCarById(99L)).thenReturn(null);
+        mockMvc.perform(get("/api/ancienne-voiture/99"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -102,6 +115,13 @@ public class OldCarControlerTest {
         Mockito.when(oldCarService.deleteOldCar(22L)).thenReturn(true);
         mockMvc.perform(delete("/api/ancienne-voiture/22"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void deleteOldCar_shouldReturnFalse_whenNotDelete() throws Exception {
+        Mockito.when(oldCarService.deleteOldCar(99L)).thenReturn(false);
+        mockMvc.perform(delete("/api/ancienne-voiture/99"))
+                .andExpect(status().isNotFound());
     }
 
     @Test

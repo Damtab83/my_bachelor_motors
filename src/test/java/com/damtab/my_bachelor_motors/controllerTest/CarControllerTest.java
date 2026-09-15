@@ -93,6 +93,14 @@ public class CarControllerTest {
     }
 
     @Test
+    public void getAllCar_shouldReturnFalse() throws Exception {
+
+        Mockito.when(carService.getAllCars()).thenReturn(null);
+        mockMvc.perform(get(ApiRegistration.REST_API + ApiRegistration.REST_CAR))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void getCarById_shouldReturnCar_whenCarExist() throws Exception {
         Mockito.when(carService.getCarById(55L)).thenReturn(test2);
         mockMvc.perform(get(ApiRegistration.REST_API + ApiRegistration.REST_CAR + "/55"))
@@ -101,6 +109,13 @@ public class CarControllerTest {
                 .andExpect(jsonPath("$.model").value("500L"))
                 .andExpect(jsonPath("$.kilometer").value(120000))
                 .andExpect(jsonPath("$.price").value(8000));
+    }
+
+    @Test
+    public void getCarById_shouldReturnFalse_whenCarNotExist() throws Exception {
+        Mockito.when(carService.getCarById(99L)).thenReturn(null);
+        mockMvc.perform(get(ApiRegistration.REST_API + ApiRegistration.REST_CAR + "/55"))
+                .andExpect(status().isNotFound());
 
     }
 
@@ -123,6 +138,13 @@ public class CarControllerTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Test
+    public void deleteCarById_shouldReturnFalse_whencarNotExist() throws Exception {
+        Mockito.when(carService.deleteCar(99L)).thenReturn(false);
+        mockMvc.perform(delete(ApiRegistration.REST_API + ApiRegistration.REST_CAR + "/99"))
+                .andExpect(status().isNotFound());
     }
 
     @Test

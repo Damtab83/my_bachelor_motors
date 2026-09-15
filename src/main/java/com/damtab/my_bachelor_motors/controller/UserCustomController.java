@@ -21,6 +21,9 @@ public class UserCustomController {
     @GetMapping
     public ResponseEntity<Object> getAllUserCustom () {
         List<UserCustom> myListUserCustom = userCustomService.getAllUserCustom();
+        if(myListUserCustom == null || myListUserCustom.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.status(HttpStatus.OK).body(myListUserCustom);
     }
 

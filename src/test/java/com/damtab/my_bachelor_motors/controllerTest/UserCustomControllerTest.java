@@ -86,6 +86,13 @@ public class UserCustomControllerTest {
     }
 
     @Test
+    public void getAllUserCustom_shouldReturnFalse() throws Exception {
+        Mockito.when(userCustomService.getAllUserCustom()).thenReturn(null);
+        mockMvc.perform(get(ApiRegistration.REST_API + ApiRegistration.REST_USER_CUSTOM))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void getUserCustomById_shouldReturnUser_whenUserExist() throws Exception {
         Mockito.when(userCustomService.getUserCustomById(10L)).thenReturn(user1);
         mockMvc.perform(get(ApiRegistration.REST_API + ApiRegistration.REST_USER_CUSTOM + "/10"))
@@ -94,13 +101,26 @@ public class UserCustomControllerTest {
                 .andExpect(jsonPath("$.firstname").value("John"))
                 .andExpect(jsonPath("$.lastname").value("Doe"))
                 .andExpect(jsonPath("$.email").value("john.doe@test.fr"));
-
     }
 
     @Test
-    public void deleteUserCustom_shouldDeleteUser_whenuserExist() throws Exception {
+    public void getUserCustomById_shouldReturFalse_whenUserNotExist() throws Exception {
+        Mockito.when(userCustomService.getUserCustomById(99L)).thenReturn(null);
+        mockMvc.perform(get(ApiRegistration.REST_API + ApiRegistration.REST_USER_CUSTOM + "/99"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void deleteUserCustom_shouldDeleteUser_whenUserExist() throws Exception {
         Mockito.when(userCustomService.deleteUserCustom(10L)).thenReturn(true);
         mockMvc.perform(delete(ApiRegistration.REST_API + ApiRegistration.REST_USER_CUSTOM + "/10"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void deleteUserCustom_shouldReturnFalse_whenUserNotExist() throws Exception {
+        Mockito.when(userCustomService.deleteUserCustom(99L)).thenReturn(false);
+        mockMvc.perform(delete(ApiRegistration.REST_API + ApiRegistration.REST_USER_CUSTOM + "/99"))
+                .andExpect(status().isNotFound());
     }
 }

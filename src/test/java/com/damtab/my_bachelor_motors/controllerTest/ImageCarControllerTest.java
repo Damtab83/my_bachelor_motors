@@ -7,7 +7,6 @@ import com.damtab.my_bachelor_motors.service.ImageCarService;
 import com.damtab.my_bachelor_motors.service.UserCustomDetailsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,7 +16,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -58,6 +56,13 @@ public class ImageCarControllerTest {
     }
 
     @Test
+    public void getAllImageCar_shouldReturnFalse() throws Exception {
+        Mockito.when(imageCarService.getAllImageCars()).thenReturn(null);
+        mockMvc.perform(get("/api/image-voiture"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void getImageCarById_shouldReturn200_whenExists() throws Exception {
         ImageCar imageCar = new ImageCar();
         imageCar.setImageCarId(33L);
@@ -70,6 +75,14 @@ public class ImageCarControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.imageCarId").value(33))
                 .andExpect(jsonPath("$.size").value(333));
+    }
+
+    @Test
+    public void getImageCarById_shouldReturnFalse() throws Exception {
+        Mockito.when(imageCarService.getImageCarById(99L)).thenReturn(null);
+        mockMvc.perform(get("/api/image-voiture/99"))
+                .andExpect(status().isNotFound());
+
     }
 
     @Test

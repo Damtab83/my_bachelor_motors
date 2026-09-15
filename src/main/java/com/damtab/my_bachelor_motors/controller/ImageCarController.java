@@ -20,12 +20,18 @@ public class ImageCarController {
     @GetMapping
     public ResponseEntity<Object> getAllImagesCar() {
         List<ImageCar> myListImageCar = imageCarService.getAllImageCars();
+        if(myListImageCar == null || myListImageCar.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.status(HttpStatus.OK).body(myListImageCar);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getImageCarById (@PathVariable Long id) {
         ImageCar myImageCar = imageCarService.getImageCarById(id);
+        if(myImageCar == null) {
+            return ResponseEntity.notFound().build();
+        }
 
         return ResponseEntity.ok(getImageCarById(id));
     }

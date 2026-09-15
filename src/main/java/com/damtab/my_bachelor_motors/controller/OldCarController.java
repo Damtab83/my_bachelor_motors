@@ -20,6 +20,9 @@ public class OldCarController {
     @GetMapping
     public ResponseEntity<Object> getAllOldCar() {
         List<OldCar> myListOldCar = oldCarService.getAllOldCars();
+        if(myListOldCar == null ||myListOldCar.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.status(HttpStatus.OK).body(myListOldCar);
     }
 
@@ -38,7 +41,10 @@ public class OldCarController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteOldCar(@PathVariable Long id) {
-        oldCarService.deleteOldCar(id);
+        boolean deleted = oldCarService.deleteOldCar(id);
+        if(!deleted) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

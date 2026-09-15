@@ -19,6 +19,9 @@ public class OrderController {
     @GetMapping
     public ResponseEntity<Object> getAllOrder() {
         List<Order> myListOrder = orderService.getAllOrders();
+        if(myListOrder == null || myListOrder.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.status(HttpStatus.OK).body(myListOrder);
     }
 
