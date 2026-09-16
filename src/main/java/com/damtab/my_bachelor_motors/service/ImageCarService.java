@@ -13,8 +13,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ImageCarService {
 
+    //Create CRUD for Imager-Car
+    //Update Image-Car not Exist, for modify image delete it and create an other image
     private final ImageCarRepository imageCarRepository;
 
+    //Read List of Images
     public List<ImageCar> getAllImageCars() {
         List<ImageCar> images = imageCarRepository.findAll();
 
@@ -25,20 +28,20 @@ public class ImageCarService {
         return images;
     }
 
+    //Read Image By Id
     public ImageCar getImageCarById(Long id) {
 
         return imageCarRepository.findById(id)
                 .orElseThrow(()->
            new ResourceNotFoundException ("Aucune image trouvée"));
-
-
-
     }
 
+    //Create Image-Car
     public void createImageCar(ImageCar newImage) {
         imageCarRepository.save(newImage);
     }
 
+    //Delete Image-Car
     public boolean deleteImageCar(Long id) {
         Boolean toDelete = imageCarRepository.existsById(id);
         if(toDelete) {

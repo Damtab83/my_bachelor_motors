@@ -12,8 +12,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserCustomService {
 
+    //Get and delete Users, only for Admin
     private final UserCustomRepository userCustomRepository;
 
+    //Get List of Users
     public List<UserCustom> getAllUserCustom() {
         List<UserCustom> userCustomers = userCustomRepository.findAll();
         if(userCustomers.isEmpty()) {
@@ -22,6 +24,7 @@ public class UserCustomService {
         return userCustomers;
     }
 
+    //Get User By Id
     public UserCustom getUserCustomById(Long id) {
         return userCustomRepository.findById(id)
                 .orElseThrow(() ->
@@ -29,6 +32,7 @@ public class UserCustomService {
 
     }
 
+    //Delete User
     public boolean deleteUserCustom (Long id) {
         Boolean toDelete = userCustomRepository.existsById(id);
         if(toDelete) {

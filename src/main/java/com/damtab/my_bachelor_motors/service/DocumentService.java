@@ -14,8 +14,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DocumentService {
 
+    //Download and Upload PDF
     private final DocumentRepository documentRepository;
 
+    //Get List of PDF
     public List<Document> getAllDocuments() {
         List<Document> myListDocuments = documentRepository.findAll();
         if(myListDocuments.isEmpty()) {
@@ -24,12 +26,14 @@ public class DocumentService {
         return myListDocuments;
     }
 
+    //Get PDF by Id
     public Document getDocument(Long id) {
         return documentRepository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Aucun document trouvé"));
     }
 
+    //Uploading PDF for buy or rent Car
     public Document uploadFile(MultipartFile newFile) throws IOException {
 
         if (!"application/pdf".equals(newFile.getContentType())) {

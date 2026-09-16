@@ -14,9 +14,11 @@ import java.util.Optional;
 @RequestMapping(ApiRegistration.REST_API + ApiRegistration.REST_OLD_CAR)
 public class OldCarController {
 
+    //Differents routing for...
     @Autowired
     private OldCarService oldCarService;
 
+    //Get List of Old-Car
     @GetMapping
     public ResponseEntity<Object> getAllOldCar() {
         List<OldCar> myListOldCar = oldCarService.getAllOldCars();
@@ -26,6 +28,7 @@ public class OldCarController {
         return ResponseEntity.status(HttpStatus.OK).body(myListOldCar);
     }
 
+    //Get Old-Car By Id
     @GetMapping("/{id}")
     public ResponseEntity<Object> getOldCarById(@PathVariable Long id) {
         Optional<OldCar> oldCar = oldCarService.getOldCarById(id);
@@ -33,12 +36,14 @@ public class OldCarController {
                 ResponseEntity.status(HttpStatus.OK).body(oldCar);
     }
 
+    //Create Old-Car
     @PostMapping
     public ResponseEntity<Object> createOldCar(@RequestBody OldCar newOldCar) {
         oldCarService.createOldCar(newOldCar);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    //Delete Old-Car
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteOldCar(@PathVariable Long id) {
         boolean deleted = oldCarService.deleteOldCar(id);

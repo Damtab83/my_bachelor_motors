@@ -18,11 +18,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RegistrationLoginService {
 
+    //Create and connecting account
     private final UserCustomRepository userCustomRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
 
+    //Create account for login
     public ResponseEntity<?> registerUserCustom(RegisterUserCustomDto dtoRegister) {
         if(userCustomRepository.findByEmail(dtoRegister.email()) != null) {
             return ResponseEntity.badRequest().body("L'utilisateur existe déjà");
@@ -40,6 +42,7 @@ public class RegistrationLoginService {
     }
 
 
+    //Authentication with login or invalid false email
     public ResponseEntity<?> loginUserCustom(LoginUserCustomDto userCustom) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userCustom.email(), userCustom.password()));

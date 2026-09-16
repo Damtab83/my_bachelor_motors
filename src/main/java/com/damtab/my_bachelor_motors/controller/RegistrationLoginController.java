@@ -18,12 +18,14 @@ public class RegistrationLoginController {
 
     private final RegistrationLoginService registrationLoginService;
 
+    //Create new User
     @PostMapping(ApiRegistration.REST_REGISTRATION)
     public ResponseEntity<?> registerUserCustom(@RequestBody RegisterUserCustomDto dtoRegister) {
 
         return registrationLoginService.registerUserCustom(dtoRegister);
     }
 
+    //Connect User
     @PostMapping(ApiRegistration.REST_LOGIN)
     public ResponseEntity<?> loginUserCustom(@RequestBody LoginUserCustomDto dtoLogin) {
         return registrationLoginService.loginUserCustom(dtoLogin);

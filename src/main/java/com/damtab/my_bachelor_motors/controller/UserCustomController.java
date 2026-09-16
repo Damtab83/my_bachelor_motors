@@ -15,9 +15,11 @@ import java.util.List;
 public class UserCustomController {
 
 
+    //Differents routing for...
     @Autowired
     private UserCustomService userCustomService;
 
+    //Get List of Users
     @GetMapping
     public ResponseEntity<Object> getAllUserCustom () {
         List<UserCustom> myListUserCustom = userCustomService.getAllUserCustom();
@@ -27,6 +29,7 @@ public class UserCustomController {
         return ResponseEntity.status(HttpStatus.OK).body(myListUserCustom);
     }
 
+    //Get User By Id
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUserCutomById(@PathVariable Long id) {
         UserCustom myUserCustom = userCustomService.getUserCustomById(id);
@@ -34,6 +37,7 @@ public class UserCustomController {
                 ResponseEntity.status(HttpStatus.OK).body(myUserCustom);
     }
 
+    //Delete User
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUserCustom(@PathVariable Long id) {
         Boolean isDelete = userCustomService.deleteUserCustom(id);

@@ -13,9 +13,11 @@ import java.util.List;
 @RequestMapping(ApiRegistration.REST_API + ApiRegistration.REST_ORDER)
 public class OrderController {
 
+    //Different routing for...
     @Autowired
     private OrderService orderService;
 
+    //Get List of Order
     @GetMapping
     public ResponseEntity<Object> getAllOrder() {
         List<Order> myListOrder = orderService.getAllOrders();
@@ -25,6 +27,7 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(myListOrder);
     }
 
+    //Get Order By Id
     @GetMapping("/{id}")
     public ResponseEntity<Object> getOrderById(@PathVariable Long id) {
         Order order = orderService.getOrderById(id);
@@ -32,12 +35,14 @@ public class OrderController {
                 ResponseEntity.status(HttpStatus.OK).body(order);
     }
 
+    //Create Order
     @PostMapping
     public ResponseEntity<Object> createOrder(@RequestBody Order newOrder) {
         orderService.createOrder(newOrder);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    //Delete Order
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         Boolean toDelete = orderService.deleteOrder(id);
@@ -45,6 +50,7 @@ public class OrderController {
                 ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
+    //Update Order
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateOrder(@PathVariable Long id, @RequestBody Order newOrder) {
         orderService.updateOrder(id, newOrder);

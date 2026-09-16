@@ -17,15 +17,18 @@ import java.util.List;
 @RequestMapping(ApiRegistration.REST_API + ApiRegistration.REST_DOCUMENT)
 public class DocumentController {
 
+    //Differents routing for..
     @Autowired
     private DocumentService documentService;
 
+    //Get All PDF Documents
     @GetMapping
     public ResponseEntity<Object> getAllDocument() {
         List<Document> myListDocument = documentService.getAllDocuments();
         return ResponseEntity.status(HttpStatus.OK).body(myListDocument);
     }
 
+    //Get Document By ID
     @GetMapping("/{id}")
     public ResponseEntity<Object> getDocumentById(@PathVariable Long id) {
         Document doc = documentService.getDocument(id);
@@ -33,6 +36,7 @@ public class DocumentController {
                 ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
+    //Download Document By Id
     @GetMapping("/{id}/download")
     public ResponseEntity<byte[]> download(@PathVariable Long id) {
         Document doc = documentService.getDocument(id);
@@ -44,6 +48,7 @@ public class DocumentController {
                 .body(doc.getContenu());
     }
 
+    //Upload Document for Buy or Rent Car by the User
     @PostMapping("/upload")
     public ResponseEntity<String> upload(@RequestParam MultipartFile file) throws IOException {
         documentService.uploadFile(file);

@@ -12,8 +12,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
 
+    //CRud for Order for change Rent to Buy or Buy to Rent
     private final OrderRepository orderRepository;
 
+    //Get List of Order
     public List<Order> getAllOrders() {
         List<Order> orders = orderRepository.findAll();
         if(orders.isEmpty()) {
@@ -22,16 +24,19 @@ public class OrderService {
         return orders;
     }
 
+    //Get Order By Id
     public Order getOrderById(Long id) {
         return orderRepository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Aucune commande trouvée"));
     }
 
+    //Create Order
     public void createOrder(Order newOrder) {
         orderRepository.save(newOrder);
     }
 
+    //Delete Order
     public boolean deleteOrder(Long id) {
         Boolean toDelete = orderRepository.existsById(id);
         if (toDelete) {
@@ -40,6 +45,7 @@ public class OrderService {
         return toDelete;
     }
 
+    //Update Order for change Buy to Rent and inverse
     public void updateOrder(Long id, Order newOrder) {
         Order oldOrder = this.getOrderById(id);
         if(oldOrder != null) {

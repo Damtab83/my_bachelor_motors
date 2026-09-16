@@ -12,8 +12,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CarService {
 
+    //Create CRUD for Car
     private final CarRepository carRepository;
 
+
+    //Read List of Cars
     public List<Car> getAllCars() {
         List<Car> cars = carRepository.findAll();
         if(cars.isEmpty()) {
@@ -22,16 +25,19 @@ public class CarService {
         return cars;
     }
 
+    //Read Car by Id
     public Car getCarById(Long id) {
         return carRepository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Aucune voiture trouvée"));
     }
 
+    //Create Car
     public void createCar(Car car) {
         carRepository.save(car);
     }
 
+    //Delete Car
     public boolean deleteCar(Long id) {
         Boolean toDelete = carRepository.existsById(id);
         if(toDelete) {
@@ -40,6 +46,7 @@ public class CarService {
         return toDelete;
     }
 
+    //Update Car
     public Car updateCar(Long id, Car newCar) {
         Car oldCar = this.getCarById(id);
         if(oldCar != null) {

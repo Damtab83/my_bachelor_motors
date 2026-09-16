@@ -8,15 +8,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(ApiRegistration.REST_API + ApiRegistration.REST_IMAGE_CAR)
 public class ImageCarController {
 
+    //Differents routing for...
     @Autowired
     private ImageCarService imageCarService;
 
+    //Get List of Image-Car
     @GetMapping
     public ResponseEntity<Object> getAllImagesCar() {
         List<ImageCar> myListImageCar = imageCarService.getAllImageCars();
@@ -26,6 +27,7 @@ public class ImageCarController {
         return ResponseEntity.status(HttpStatus.OK).body(myListImageCar);
     }
 
+    //Get Image-Car By Id
     @GetMapping("/{id}")
     public ResponseEntity<Object> getImageCarById (@PathVariable Long id) {
         ImageCar myImageCar = imageCarService.getImageCarById(id);
@@ -36,12 +38,14 @@ public class ImageCarController {
         return ResponseEntity.ok(getImageCarById(id));
     }
 
+    //Create Image-Car
     @PostMapping
     public ResponseEntity<Object> createImageCar (@RequestBody ImageCar myImageCar) {
         imageCarService.createImageCar(myImageCar);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    //Delete Image-Car
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletImageCar (@PathVariable Long id) {
         Boolean toDelete = imageCarService.deleteImageCar(id);

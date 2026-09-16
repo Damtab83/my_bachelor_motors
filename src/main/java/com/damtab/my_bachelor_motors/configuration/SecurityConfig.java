@@ -24,6 +24,7 @@ public class SecurityConfig {
     private final UserCustomDetailsService userCustomDetailsService;
     private final JwtUtils jwtUtils;
 
+    //Authorize access for the differents routing
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -39,11 +40,13 @@ public class SecurityConfig {
                 .build();
     }
 
+    //Encode Password for register and login
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    //Authenticate User for login with password encryted
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder) throws Exception {
 

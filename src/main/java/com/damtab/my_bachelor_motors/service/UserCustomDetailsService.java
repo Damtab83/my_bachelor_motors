@@ -16,7 +16,9 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class UserCustomDetailsService implements UserDetailsService {
 
+    //Loading User when exist in Database
     private final UserCustomRepository userCustomRepository;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserCustom myCustom = userCustomRepository.findByEmail(email);
