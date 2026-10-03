@@ -6,11 +6,9 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: motdepasse
       MARIADB_DATABASE: my_bachelor_motors
-
     ports:
       - "3307:3306"
     volumes:
       - mariadb_data:/var/lib/mysql
-
 volumes:
   mariadb_data:
