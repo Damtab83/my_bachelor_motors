@@ -34,4 +34,4 @@ jobs:
           push: true
           build-args: |
             MAVEN_OPTS=-DskipTests
-          tags: ghcr.io/${{ github.repository_owner }}/my_bachelor_motors:latest
+          tags: ghcr.io/${{ strToLower(github.repository_owner) }}/my_bachelor_motors:latest
