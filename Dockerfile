@@ -5,7 +5,7 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 
-RUN mvn package -DskipTests
+#RUN mvn package -DskipTests
 
 FROM eclipse-temurin:21-jre-alpine-3.24
 
@@ -17,4 +17,4 @@ ENV PORT 8080
 
 EXPOSE 8080
 
-ENTRYPOINT["java", "-jar", "app.war"]
+ENTRYPOINT ["java", "-jar", "app.war"]
