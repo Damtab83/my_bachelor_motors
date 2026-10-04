@@ -27,11 +27,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Docker Image
+      - name: Extraire les métadonnées pour Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: type=raw,value=latest
+
+      - name: Build et Push de l'image Docker
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          build-args: |
-            MAVEN_OPTS=-DskipTests
-          tags: ghcr.io/${{ strToLower(github.repository_owner) }}/my_bachelor_motors:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
