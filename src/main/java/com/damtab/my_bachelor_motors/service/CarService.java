@@ -19,9 +19,9 @@ public class CarService {
     //Read List of Cars
     public List<Car> getAllCars() {
         List<Car> cars = carRepository.findAll();
-        if(cars.isEmpty()) {
-            throw new ResourceNotFoundException("Aucunes voitures trouvées");
-        }
+//        if(cars.isEmpty()) {
+//            throw new ResourceNotFoundException("Aucunes voitures trouvées");
+//        }
         return cars;
     }
 

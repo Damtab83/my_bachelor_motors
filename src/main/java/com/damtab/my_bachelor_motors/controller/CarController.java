@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequestMapping(ApiRegistration.REST_API + ApiRegistration.REST_CAR)
 public class CarController {
 
-    //Differents routing for ..
+    //Differents routing for
     @Autowired
     private CarService carService;
 
@@ -22,10 +22,14 @@ public class CarController {
     @GetMapping
     public ResponseEntity<Object> getAllCars() {
         List<Car> myListCar = carService.getAllCars();
-        if(myListCar == null || myListCar.isEmpty()) {
+//        if(myListCar == null || myListCar.isEmpty()) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity.status(HttpStatus.OK).body(myListCar);
+        if(myListCar.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.status(HttpStatus.OK).body(myListCar);
+        return ResponseEntity.ok(myListCar);
     }
 
     //Get Car By Id
