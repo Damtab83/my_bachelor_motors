@@ -1,7 +1,7 @@
 # M-MOTORS
 
 Ce projet est une application créée dans le cadre d'un **Bachelor - Développement d'une solution digitale en Java**.
-Cette application a été faite sur **Spring Boot**, construite avec **Maven** et conçue pour fonctionner avec **Java 21**.
+Cette application a été faite sur **Spring Boot**, construite avec **Maven** et conçue pour fonctionner avec la version **Java 21**.
 
 ---
 
