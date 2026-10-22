@@ -15,3 +15,8 @@ server:
 app:
   secret-key: ${DB_SECRET_KEY}
   expiration-time: ${DB_EXPIRATION_TIME}
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE
