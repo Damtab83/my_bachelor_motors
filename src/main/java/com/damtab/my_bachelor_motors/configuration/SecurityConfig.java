@@ -32,9 +32,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth
                                 .requestMatchers("/api/voiture","/api/voiture/**", "/api/authentification/**").permitAll()
-                                .requestMatchers(
-                                "/api/authentification/connexion",
-                                        "/api/authentification/inscription").permitAll()
+//                                .requestMatchers(
+//                                "/api/authentification/connexion",
+//                                        "/api/authentification/inscription").permitAll()
                                 .anyRequest().authenticated())
                 .addFilterBefore(new JwtFilter(userCustomDetailsService, jwtUtils), UsernamePasswordAuthenticationFilter.class)
                 .build();
