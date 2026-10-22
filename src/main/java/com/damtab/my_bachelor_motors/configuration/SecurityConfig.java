@@ -31,10 +31,13 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth
-                                .requestMatchers("/api/voiture","/api/voiture/**", "/api/authentification/**").permitAll()
+                                .requestMatchers(
+                                        "/api/authentification/connexion",
+                                        "/api/authentification/inscription",
+                                        "/api/voiture",
+                                        "/api/voiture/**",
+                                        "/api/authentification/**").permitAll()
                                 .requestMatchers("/error").permitAll()
-//                                "/api/authentification/connexion",
-//                                        "/api/authentification/inscription").permitAll()
                                 .anyRequest().authenticated())
                 .addFilterBefore(new JwtFilter(userCustomDetailsService, jwtUtils), UsernamePasswordAuthenticationFilter.class)
                 .build();
