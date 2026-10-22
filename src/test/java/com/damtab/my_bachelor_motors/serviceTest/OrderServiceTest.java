@@ -2,10 +2,10 @@ package com.damtab.my_bachelor_motors.serviceTest;
 
 import com.damtab.my_bachelor_motors.entity.Car;
 import com.damtab.my_bachelor_motors.entity.OfferType;
-import com.damtab.my_bachelor_motors.entity.Order;
+import com.damtab.my_bachelor_motors.entity.OrderCar;
 import com.damtab.my_bachelor_motors.exception.ResourceNotFoundException;
-import com.damtab.my_bachelor_motors.repository.OrderRepository;
-import com.damtab.my_bachelor_motors.service.OrderService;
+import com.damtab.my_bachelor_motors.repository.OrderCarRepository;
+import com.damtab.my_bachelor_motors.service.OrderCarService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,14 +24,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OrderServiceTest {
 
     @Mock
-    private OrderRepository orderRepository;
+    private OrderCarRepository orderRepository;
 
     @InjectMocks
-    private OrderService orderService;
+    private OrderCarService orderService;
 
-    private Order order1;
-    private Order order2;
-    private List<Order> myListOrder;
+    private OrderCar order1;
+    private OrderCar order2;
+    private List<OrderCar> myListOrder;
     private Car carTest1;
     private Car carTest2;
 
@@ -55,13 +55,13 @@ public class OrderServiceTest {
         carTest2.setMotorisation("250CV");
 
 
-        order1 = new Order();
+        order1 = new OrderCar();
         order1.setId(44L);
         order1.setCar(carTest1);
         order1.setSubscriptionInsurance(false);
         order1.setOfferType(OfferType.BUY);
 
-        order2 = new Order();
+        order2 = new OrderCar();
         order2.setId(55L);
         order2.setCar(carTest2);
         order2.setSubscriptionInsurance(true);
@@ -77,7 +77,7 @@ public class OrderServiceTest {
 
         Mockito.when(orderRepository.findAll()).thenReturn(myListOrder);
 
-        List<Order> result = orderService.getAllOrders();
+        List<OrderCar> result = orderService.getAllOrders();
         assertNotNull(result);
         assertEquals(2, result.size());
         assertEquals(44L, result.get(0).getId());
@@ -91,7 +91,7 @@ public class OrderServiceTest {
     @Test
     public void getOrderById_shouldReturnOrder() throws Exception {
         Mockito.when(orderRepository.findById(55L)).thenReturn(Optional.of(order2));
-        Order result = orderService.getOrderById(55L);
+        OrderCar result = orderService.getOrderById(55L);
         assertNotNull(result);
         assertEquals(55L, result.getId());
         assertEquals(OfferType.RENT, result.getOfferType());
@@ -133,7 +133,7 @@ public class OrderServiceTest {
 
     @Test
     public void updatedOrderById_shouldModifyOrder_whenOrderExist() throws Exception {
-        Order newOrder = new Order();
+        OrderCar newOrder = new OrderCar();
         newOrder.setOfferType(OfferType.RENT);
         newOrder.setCar(carTest1);
 

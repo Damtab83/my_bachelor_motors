@@ -1,7 +1,7 @@
 package com.damtab.my_bachelor_motors.controller;
 
-import com.damtab.my_bachelor_motors.entity.Order;
-import com.damtab.my_bachelor_motors.service.OrderService;
+import com.damtab.my_bachelor_motors.entity.OrderCar;
+import com.damtab.my_bachelor_motors.service.OrderCarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,38 +11,38 @@ import java.util.List;
 
 @RestController
 @RequestMapping(ApiRegistration.REST_API + ApiRegistration.REST_ORDER)
-public class OrderController {
+public class OrderCarController {
 
     //Different routing for...
     @Autowired
-    private OrderService orderService;
+    private OrderCarService orderService;
 
-    //Get List of Order
+    //Get List of OrderCar
     @GetMapping
     public ResponseEntity<Object> getAllOrder() {
-        List<Order> myListOrder = orderService.getAllOrders();
+        List<OrderCar> myListOrder = orderService.getAllOrders();
         if(myListOrder == null || myListOrder.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(myListOrder);
     }
 
-    //Get Order By Id
+    //Get OrderCar By Id
     @GetMapping("/{id}")
     public ResponseEntity<Object> getOrderById(@PathVariable Long id) {
-        Order order = orderService.getOrderById(id);
+        OrderCar order = orderService.getOrderById(id);
         return order == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).build() :
                 ResponseEntity.status(HttpStatus.OK).body(order);
     }
 
-    //Create Order
+    //Create OrderCar
     @PostMapping
-    public ResponseEntity<Object> createOrder(@RequestBody Order newOrder) {
+    public ResponseEntity<Object> createOrder(@RequestBody OrderCar newOrder) {
         orderService.createOrder(newOrder);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    //Delete Order
+    //Delete OrderCar
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         Boolean toDelete = orderService.deleteOrder(id);
@@ -50,9 +50,9 @@ public class OrderController {
                 ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    //Update Order
+    //Update OrderCar
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateOrder(@PathVariable Long id, @RequestBody Order newOrder) {
+    public ResponseEntity<Object> updateOrder(@PathVariable Long id, @RequestBody OrderCar newOrder) {
         orderService.updateOrder(id, newOrder);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

@@ -2,11 +2,11 @@ package com.damtab.my_bachelor_motors.controllerTest;
 
 import com.damtab.my_bachelor_motors.configuration.jwt.JwtUtils;
 import com.damtab.my_bachelor_motors.controller.ApiRegistration;
-import com.damtab.my_bachelor_motors.controller.OrderController;
+import com.damtab.my_bachelor_motors.controller.OrderCarController;
 import com.damtab.my_bachelor_motors.entity.Car;
 import com.damtab.my_bachelor_motors.entity.OfferType;
-import com.damtab.my_bachelor_motors.entity.Order;
-import com.damtab.my_bachelor_motors.service.OrderService;
+import com.damtab.my_bachelor_motors.entity.OrderCar;
+import com.damtab.my_bachelor_motors.service.OrderCarService;
 import com.damtab.my_bachelor_motors.service.UserCustomDetailsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(OrderController.class)
+@WebMvcTest(OrderCarController.class)
 @AutoConfigureMockMvc(addFilters = false)
 public class OrderControllerTest {
 
@@ -37,7 +37,7 @@ public class OrderControllerTest {
     private ObjectMapper objectMapper;
 
     @MockitoBean
-    private OrderService orderService;
+    private OrderCarService orderService;
 
     @MockitoBean
     private UserCustomDetailsService userCustomDetailsService;
@@ -45,9 +45,9 @@ public class OrderControllerTest {
     @MockitoBean
     private JwtUtils jwtUtils;
 
-    private Order order1;
-    private Order order2;
-    private List<Order> myOrderList;
+    private OrderCar order1;
+    private OrderCar order2;
+    private List<OrderCar> myOrderList;
     private Car carTest1;
     private Car carTest2;
 
@@ -70,12 +70,12 @@ public class OrderControllerTest {
         carTest2.setMotorisation("150CV");
         carTest2.setPrice(5000);
 
-        order1 = new Order();
+        order1 = new OrderCar();
         order1.setId(33L);
         order1.setCar(carTest1);
         order1.setOfferType(OfferType.BUY);
 
-        order2 = new Order();
+        order2 = new OrderCar();
         order2.setId(55L);
         order2.setCar(carTest2);
         order2.setOfferType(OfferType.RENT);
@@ -130,7 +130,7 @@ public class OrderControllerTest {
                         .content(objectMapper.writeValueAsString(order2)))
                 .andExpect(status().isCreated());
 
-        Mockito.verify(orderService).createOrder(Mockito.any(Order.class));
+        Mockito.verify(orderService).createOrder(Mockito.any(OrderCar.class));
     }
 
     @Test
@@ -149,7 +149,7 @@ public class OrderControllerTest {
 
     @Test
     public void updateOrderById_shouldModifyOrder_whenOrderExist() throws Exception {
-        Order newOrder = new Order();
+        OrderCar newOrder = new OrderCar();
         newOrder.setOfferType(OfferType.BUY);
         newOrder.setCar(carTest1);
         newOrder.setCar(carTest1);
@@ -159,6 +159,6 @@ public class OrderControllerTest {
                 .content(objectMapper.writeValueAsString(newOrder)))
                 .andExpect(status().isOk());
 
-        Mockito.verify(orderService).updateOrder(Mockito.eq(55L), Mockito.any(Order.class));
+        Mockito.verify(orderService).updateOrder(Mockito.eq(55L), Mockito.any(OrderCar.class));
     }
 }
