@@ -21,38 +21,38 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-//    private final UserCustomDetailsService userCustomDetailsService;
-//    private final JwtUtils jwtUtils;
-//
-//    //Authorize access for the differents routing
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(auth ->
-//                        auth
-//                                .requestMatchers(
-//                                "/api/authentification/login",
-//                                        "/api/authentification/register").permitAll()
-//                                .requestMatchers("/api/voiture","/api/voiture/**", "/api/authentification/**").permitAll()
-//                                .anyRequest().authenticated())
-//                .addFilterBefore(new JwtFilter(userCustomDetailsService, jwtUtils), UsernamePasswordAuthenticationFilter.class)
-//                .build();
-//    }
-//
-//    //Encode Password for register and login
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//    //Authenticate User for login with password encryted
-//    @Bean
-//    public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder) throws Exception {
-//
-//        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-//        authenticationManagerBuilder.userDetailsService(userCustomDetailsService).passwordEncoder(passwordEncoder);
-//        return authenticationManagerBuilder.build();
-//
-//    }
+    private final UserCustomDetailsService userCustomDetailsService;
+    private final JwtUtils jwtUtils;
+
+    //Authorize access for the differents routing
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth ->
+                        auth
+                                .requestMatchers(
+                                "/api/authentification/login",
+                                        "/api/authentification/register").permitAll()
+                                .requestMatchers("/api/voiture","/api/voiture/**", "/api/authentification/**").permitAll()
+                                .anyRequest().authenticated())
+                .addFilterBefore(new JwtFilter(userCustomDetailsService, jwtUtils), UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
+
+    //Encode Password for register and login
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    //Authenticate User for login with password encryted
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder) throws Exception {
+
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(userCustomDetailsService).passwordEncoder(passwordEncoder);
+        return authenticationManagerBuilder.build();
+
+    }
 }
