@@ -32,8 +32,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth
                                 .requestMatchers(
-                                "/api/authentification/login",
-                                        "/api/authentification/register").permitAll()
+                                "/api/authentification/connexion",
+                                        "/api/authentification/inscription").permitAll()
                                 .requestMatchers("/api/voiture","/api/voiture/**", "/api/authentification/**").permitAll()
                                 .anyRequest().authenticated())
                 .addFilterBefore(new JwtFilter(userCustomDetailsService, jwtUtils), UsernamePasswordAuthenticationFilter.class)
