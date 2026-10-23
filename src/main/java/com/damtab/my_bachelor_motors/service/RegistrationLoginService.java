@@ -35,13 +35,8 @@ public class RegistrationLoginService {
         userCustom.setLastname(dtoRegister.lastname());
         userCustom.setEmail(dtoRegister.email());
         userCustom.setPassword(passwordEncoder.encode(dtoRegister.password()));
-        //userCustom.setRole(Role.ROLE_CUSTOM);
+        userCustom.setRole(Role.ROLE_CUSTOM);
 
-//        userCustom.setFirstname("Admini");
-//        userCustom.setLastname("strateur");
-//        userCustom.setEmail(admin@istrateur.fr);
-//        userCustom.setPassword(passwordEncoder.encode("Mmotors_4dminstr@teur#"));
-         userCustom.setRole(Role.ROLE_ADMIN);
 
         userCustomRepository.save(userCustom);
         return ResponseEntity.ok("Utilisateur enregistré");
