@@ -32,10 +32,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth
                                 .requestMatchers(
+                                        "/api",
                                         "/api/authentification/connexion",
                                         "/api/authentification/inscription",
-                                        "/api/voiture",
-                                        "/api/voiture/**",
+                                        //"/api/voiture",
+                                        //"/api/voiture/**",
                                         "/api/authentification/**").permitAll()
                                 .requestMatchers("/error").permitAll()
                                 .anyRequest().authenticated())
