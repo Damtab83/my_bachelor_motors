@@ -31,15 +31,17 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth
-                                .requestMatchers(
-                                        "/api",
-                                        "/api/authentification/connexion",
-                                        "/api/authentification/inscription",
-                                        //"/api/voiture",
-                                        //"/api/voiture/**",
-                                        "/api/authentification/**").permitAll()
-                                .requestMatchers("/error").permitAll()
-                                .anyRequest().authenticated())
+//                                .requestMatchers(
+//                                        "/api",
+//                                        "/api/authentification/connexion",
+//                                        "/api/authentification/inscription",
+//                                        //"/api/voiture",
+//                                        //"/api/voiture/**",
+//                                        "/api/authentification/**").permitAll()
+//                                .requestMatchers("/error").permitAll()
+                                .anyRequest()
+                                .permitAll())
+//                                .authenticated())
                 .addFilterBefore(new JwtFilter(userCustomDetailsService, jwtUtils), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
