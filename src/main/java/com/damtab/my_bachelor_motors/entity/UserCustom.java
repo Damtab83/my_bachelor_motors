@@ -12,7 +12,7 @@ public class UserCustom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long id;
 
     private String firstname;
 
@@ -27,5 +27,5 @@ public class UserCustom {
     private Role role;
 
     @OneToMany(mappedBy = "userCustom", orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<OrderCar> oredersCars;
+    private List<OrderCar> ordersCars;
 }
