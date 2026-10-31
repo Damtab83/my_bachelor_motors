@@ -28,4 +28,7 @@ public class Car {
     @OneToOne(optional = true)
     @JoinColumn(name = "testDrivingId")
     private TestDriving testDriving;
+
+    @OneToMany(mappedBy = "car", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<OrderCar> ordersCars;
 }

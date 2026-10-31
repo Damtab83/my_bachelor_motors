@@ -19,6 +19,10 @@ public class OrderCar {
     @JoinColumn(name = "carId", referencedColumnName = "carId")
     private Car car;
 
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private UserCustom user;
+
     @Enumerated(value = EnumType.STRING)
     private OfferType offerType;
 
