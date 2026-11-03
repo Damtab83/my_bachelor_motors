@@ -20,7 +20,7 @@ public class OrderCar {
     private Car car;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_custom_id", referencedColumnName = "id")
     private UserCustom user;
 
     @Enumerated(value = EnumType.STRING)
