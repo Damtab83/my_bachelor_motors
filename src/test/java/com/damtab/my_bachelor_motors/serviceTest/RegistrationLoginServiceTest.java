@@ -1,8 +1,11 @@
 package com.damtab.my_bachelor_motors.serviceTest;
 
 import com.damtab.my_bachelor_motors.configuration.jwt.JwtUtils;
+import com.damtab.my_bachelor_motors.dto.LoginResponse;
 import com.damtab.my_bachelor_motors.dto.LoginUserCustomDto;
+import com.damtab.my_bachelor_motors.dto.LoginUserResponse;
 import com.damtab.my_bachelor_motors.dto.RegisterUserCustomDto;
+import com.damtab.my_bachelor_motors.entity.Role;
 import com.damtab.my_bachelor_motors.entity.UserCustom;
 import com.damtab.my_bachelor_motors.repository.UserCustomRepository;
 import com.damtab.my_bachelor_motors.service.RegistrationLoginService;
@@ -17,7 +20,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -106,24 +113,86 @@ public class RegistrationLoginServiceTest {
     @Test
     public void loginUserCustom_shouldReturnToken_whenCredentialsAreCorrect() {
 
+//        LoginUserCustomDto dto = new LoginUserCustomDto(
+//                "john.doe@test.fr",
+//                "Custom"
+//        );
+//
+//        String token = "fake-jwt-token";
+//
+//        Mockito.when(jwtUtils.generateToken("john.doe@test.fr"))
+//                .thenReturn(token);
+//
+//        ResponseEntity<?> response =
+//                registrationLoginService.loginUserCustom(dto);
+//
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        assertEquals(token, response.getBody());
+//
+//        Mockito.verify(authenticationManager)
+//                .authenticate(Mockito.any(UsernamePasswordAuthenticationToken.class));
+//
+//        Mockito.verify(jwtUtils)
+//                .generateToken("john.doe@test.fr");
+
+
+
+        // 1. Identifiants de connexion
         LoginUserCustomDto dto = new LoginUserCustomDto(
                 "john.doe@test.fr",
-                "john1234"
+                "password"
         );
 
+        // 2. Utilisateur simulé
+        UserCustom userCustom = new UserCustom();
+        userCustom.setId(1L);
+        userCustom.setFirstname("John");
+        userCustom.setLastname("Doe");
+        userCustom.setEmail("john.doe@test.fr");
+        userCustom.setRole(Role.ROLE_CUSTOM);
+
+        // 3. Authentification simulée
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken(
+                        "john.doe@test.fr",
+                        null,
+                        List.of(new SimpleGrantedAuthority("ROLE_CUSTOM"))
+                );
+
+        Mockito.when(authenticationManager.authenticate(Mockito.any()))
+                .thenReturn(authentication);
+
+        // 4. Repository simulé
+        Mockito.when(userCustomRepository.findByEmail("john.doe@test.fr"))
+                .thenReturn(userCustom);
+
+        // 5. JWT simulé
         String token = "fake-jwt-token";
 
         Mockito.when(jwtUtils.generateToken("john.doe@test.fr"))
                 .thenReturn(token);
 
+        // 6. Exécution
         ResponseEntity<?> response =
                 registrationLoginService.loginUserCustom(dto);
 
+        // 7. Vérifications
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(token, response.getBody());
+
+        LoginResponse body = (LoginResponse) response.getBody();
+
+        assertNotNull(body);
+        assertEquals(token, body.token());
+
+        assertNotNull(body.userdto());
+        assertEquals("John", body.userdto().firstname());
+        assertEquals("Custom", body.userdto().role());
 
         Mockito.verify(authenticationManager)
                 .authenticate(Mockito.any(UsernamePasswordAuthenticationToken.class));
+
+        Mockito.verify(userCustomRepository)
+                .findByEmail("john.doe@test.fr");
 
         Mockito.verify(jwtUtils)
                 .generateToken("john.doe@test.fr");
@@ -133,8 +202,9 @@ public class RegistrationLoginServiceTest {
     public void loginUserCustom_shouldReturnUnauthorized_whenCredentialsAreIncorrect() {
 
         LoginUserCustomDto dto = new LoginUserCustomDto(
+
                 "john.doe@test.fr",
-                "wrongPassword"
+                "Customier"
         );
 
         Mockito.when(authenticationManager.authenticate(Mockito.any()))
