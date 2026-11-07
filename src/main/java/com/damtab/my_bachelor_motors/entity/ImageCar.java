@@ -1,9 +1,8 @@
 package com.damtab.my_bachelor_motors.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Data
@@ -15,10 +14,18 @@ public class ImageCar {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long imageCarId;
     private String name;
-    private int size;
+    private long size;
 
+    private String contentType;
+    
+    @Lob
+    @JsonIgnore
+    private byte[] imageData;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "carId")
+    @JsonIgnore
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Car car;
 }
