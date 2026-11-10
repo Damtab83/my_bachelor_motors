@@ -1,5 +1,9 @@
 package com.damtab.my_bachelor_motors.controller;
 
+import com.damtab.my_bachelor_motors.dto.mapper.OldCarMapper;
+import com.damtab.my_bachelor_motors.dto.request.OldCarRequestDto;
+import com.damtab.my_bachelor_motors.dto.response.OldCarResponseDto;
+import com.damtab.my_bachelor_motors.entity.Car;
 import com.damtab.my_bachelor_motors.entity.OldCar;
 import com.damtab.my_bachelor_motors.service.OldCarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,30 +21,41 @@ public class OldCarController {
     //Differents routing for...
     @Autowired
     private OldCarService oldCarService;
+    @Autowired
+    private OldCarMapper oldCarMapper;
+
+    public OldCarController(OldCarService oldCarService, OldCarMapper oldCarMapper) {
+        this.oldCarService = oldCarService;
+        this.oldCarMapper = oldCarMapper;
+    }
 
     //Get List of Old-Car
     @GetMapping
-    public ResponseEntity<Object> getAllOldCar() {
-        List<OldCar> myListOldCar = oldCarService.getAllOldCars();
-        if(myListOldCar == null ||myListOldCar.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<List<OldCarResponseDto>> getAllOldCar() {
+        List<OldCarResponseDto> myListOldCar = oldCarService.getAllOldCars()
+                .stream()
+                .map(oldCarMapper::toResponseDto)
+                .toList();
         return ResponseEntity.status(HttpStatus.OK).body(myListOldCar);
     }
 
     //Get Old-Car By Id
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getOldCarById(@PathVariable Long id) {
+    public ResponseEntity<OldCarResponseDto> getOldCarById(@PathVariable Long id) {
         Optional<OldCar> oldCar = oldCarService.getOldCarById(id);
-        return oldCar == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).build() :
-                ResponseEntity.status(HttpStatus.OK).body(oldCar);
+
+        if (oldCar.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(oldCarMapper.toResponseDto(oldCar.get()));
     }
 
     //Create Old-Car
     @PostMapping
-    public ResponseEntity<Object> createOldCar(@RequestBody OldCar newOldCar) {
-        oldCarService.createOldCar(newOldCar);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<OldCarResponseDto> createOldCar(@RequestBody OldCarRequestDto requestDto) {
+        OldCar newOldCar = oldCarMapper.toEntity(requestDto);
+        OldCar savedOldCar = oldCarService.createOldCar(newOldCar);
+        return ResponseEntity.status(HttpStatus.CREATED).body(oldCarMapper.toResponseDto(savedOldCar));
     }
 
     //Delete Old-Car

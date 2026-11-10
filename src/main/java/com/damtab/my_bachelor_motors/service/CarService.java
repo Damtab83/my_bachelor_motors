@@ -19,9 +19,6 @@ public class CarService {
     //Read List of Cars
     public List<Car> getAllCars() {
         List<Car> cars = carRepository.findAll();
-//        if(cars.isEmpty()) {
-//            throw new ResourceNotFoundException("Aucunes voitures trouvées");
-//        }
         return cars;
     }
 
@@ -33,13 +30,13 @@ public class CarService {
     }
 
     //Create Car
-    public void createCar(Car car) {
-        carRepository.save(car);
+    public Car createCar(Car car) {
+        return carRepository.save(car);
     }
 
     //Delete Car
     public boolean deleteCar(Long id) {
-        Boolean toDelete = carRepository.existsById(id);
+        boolean toDelete = carRepository.existsById(id);
         if(toDelete) {
             carRepository.deleteById(id);
         }

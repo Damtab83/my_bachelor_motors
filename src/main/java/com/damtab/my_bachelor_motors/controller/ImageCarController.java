@@ -34,11 +34,7 @@ public class ImageCarController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getImageCarById (@PathVariable Long id) {
         ImageCar myImageCar = imageCarService.getImageCarById(id);
-        if(myImageCar == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(getImageCarById(id));
+        return ResponseEntity.ok(myImageCar);
     }
 
     //Create Image-Car

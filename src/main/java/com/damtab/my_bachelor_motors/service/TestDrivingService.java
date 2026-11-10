@@ -43,7 +43,7 @@ public class TestDrivingService {
 
     //Delete TestDriving Car
     public  boolean deleteTestDriving(Long id) {
-        Boolean toDelete = testDrivingRepository.existsById(id);
+        boolean toDelete = testDrivingRepository.existsById(id);
         if(toDelete) {
             testDrivingRepository.deleteById(id);
         }

@@ -37,13 +37,13 @@ public class OldCarService {
     }
 
     //Create Old-Car
-    public void createOldCar(OldCar newOldCar) {
-        oldCarRepository.save(newOldCar);
+    public OldCar createOldCar(OldCar newOldCar) {
+        return oldCarRepository.save(newOldCar);
     }
 
     //Delete Old-Car
     public boolean deleteOldCar(Long id) {
-        Boolean toDelete = oldCarRepository.existsById(id);
+        boolean toDelete = oldCarRepository.existsById(id);
         if(toDelete) {
             oldCarRepository.deleteById(id);
         }

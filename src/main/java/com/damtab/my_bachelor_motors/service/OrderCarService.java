@@ -38,7 +38,7 @@ public class OrderCarService {
 
     //Delete OrderCar
     public boolean deleteOrder(Long id) {
-        Boolean toDelete = orderRepository.existsById(id);
+        boolean toDelete = orderRepository.existsById(id);
         if (toDelete) {
             orderRepository.deleteById(id);
         }

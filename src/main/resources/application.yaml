@@ -3,9 +3,12 @@ spring:
     name: my_bachelor_motors
   datasource:
     #url: jdbc:mariadb://localhost:3307/my_bachelor_motors
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    #url: ${DB_URL}
+    url : jdbc:mariadb://mysql-damtab.alwaysdata.net/damtab_mmotors
+    #username: ${DB_USERNAME}
+    username: damtab_mmotors
+    #password: ${DB_PASSWORD}
+    password: DamienM_Motors1BDD
   jpa:
     hibernate:
       ddl-auto: update
@@ -13,8 +16,10 @@ spring:
 server:
   port: ${PORT:8080}
 app:
-  secret-key: ${DB_SECRET_KEY}
-  expiration-time: ${DB_EXPIRATION_TIME}
+  #secret-key: ${DB_SECRET_KEY}
+  secret-key: 07f612faa8eaadc715811e244a9d84fdd17eb4e2b1801983d173ee41e06caab4
+  #expiration-time: ${DB_EXPIRATION_TIME}
+  expiration-time: 900000
 logging:
   level:
     org:
