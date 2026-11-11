@@ -32,8 +32,8 @@ public class OrderCarService {
     }
 
     //Create OrderCar
-    public void createOrder(OrderCar newOrder) {
-        orderRepository.save(newOrder);
+    public OrderCar createOrder(OrderCar newOrder) {
+        return orderRepository.save(newOrder);
     }
 
     //Delete OrderCar
@@ -46,7 +46,7 @@ public class OrderCarService {
     }
 
     //Update OrderCar for change Buy to Rent and inverse
-    public void updateOrder(Long id, OrderCar newOrder) {
+    public OrderCar updateOrder(Long id, OrderCar newOrder) {
         OrderCar oldOrder = this.getOrderById(id);
         if(oldOrder != null) {
             oldOrder.setCar(newOrder.getCar());
@@ -56,5 +56,6 @@ public class OrderCarService {
 
             orderRepository.save(oldOrder);
         }
+        return oldOrder;
     }
 }

@@ -1,5 +1,9 @@
 package com.damtab.my_bachelor_motors.controller;
 
+import com.damtab.my_bachelor_motors.dto.mapper.ImageCarMapper;
+import com.damtab.my_bachelor_motors.dto.request.ImageCarRequestDto;
+import com.damtab.my_bachelor_motors.dto.response.ImageCarResponseDto;
+import com.damtab.my_bachelor_motors.entity.Car;
 import com.damtab.my_bachelor_motors.entity.ImageCar;
 import com.damtab.my_bachelor_motors.service.ImageCarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,29 +23,37 @@ public class ImageCarController {
     //Differents routing for...
     @Autowired
     private ImageCarService imageCarService;
+    @Autowired
+    private ImageCarMapper imageCarMapper;
+
+    public ImageCarController(ImageCarService imageCarService, ImageCarMapper imageCarMapper) {
+        this.imageCarService = imageCarService;
+        this.imageCarMapper = imageCarMapper;
+    }
 
     //Get List of Image-Car
     @GetMapping
-    public ResponseEntity<Object> getAllImagesCar() {
-        List<ImageCar> myListImageCar = imageCarService.getAllImageCars();
-        if(myListImageCar == null || myListImageCar.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<List<ImageCarResponseDto>> getAllImagesCar() {
+        List<ImageCarResponseDto> myListImageCar = imageCarService.getAllImageCars()
+                .stream()
+                .map(imageCarMapper::toResponseDto)
+                .toList();
         return ResponseEntity.status(HttpStatus.OK).body(myListImageCar);
     }
 
     //Get Image-Car By Id
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getImageCarById (@PathVariable Long id) {
+    public ResponseEntity<ImageCarResponseDto> getImageCarById (@PathVariable Long id) {
         ImageCar myImageCar = imageCarService.getImageCarById(id);
-        return ResponseEntity.ok(myImageCar);
+        return ResponseEntity.ok(imageCarMapper.toResponseDto(myImageCar));
     }
 
     //Create Image-Car
     @PostMapping
-    public ResponseEntity<Object> createImageCar (@RequestBody ImageCar myImageCar) {
-        imageCarService.createImageCar(myImageCar);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<ImageCarResponseDto> createImageCar (@RequestBody ImageCarRequestDto requestDto) {
+        ImageCar newImageCar = imageCarMapper.toEntity(requestDto);
+        ImageCar savedImageCar = imageCarService.createImageCar(newImageCar);
+        return ResponseEntity.status(HttpStatus.CREATED).body(imageCarMapper.toResponseDto(savedImageCar));
     }
 
     @PostMapping(
@@ -61,7 +73,7 @@ public class ImageCarController {
     //Delete Image-Car
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletImageCar (@PathVariable Long id) {
-        Boolean toDelete = imageCarService.deleteImageCar(id);
+        boolean toDelete = imageCarService.deleteImageCar(id);
         return toDelete ? ResponseEntity.status(HttpStatus.OK).build() :
                 ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }

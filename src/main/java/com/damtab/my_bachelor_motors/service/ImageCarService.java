@@ -43,8 +43,8 @@ public class ImageCarService {
     }
 
     //Create Image-Car
-    public void createImageCar(ImageCar newImage) {
-        imageCarRepository.save(newImage);
+    public ImageCar createImageCar(ImageCar newImage) {
+        return imageCarRepository.save(newImage);
     }
 
     //Delete Image-Car

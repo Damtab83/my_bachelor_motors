@@ -37,8 +37,8 @@ public class TestDrivingService {
     }
 
     //Create TestDriving
-    public void createTestDriving(TestDriving newTest) {
-        testDrivingRepository.save(newTest);
+    public TestDriving createTestDriving(TestDriving newTest) {
+        return testDrivingRepository.save(newTest);
     }
 
     //Delete TestDriving Car
@@ -51,12 +51,13 @@ public class TestDrivingService {
     }
 
     //Update for change date and time for Testing Driving Car
-    public void updateTestDriving(Long id, TestDriving newTestDriving) {
+    public TestDriving updateTestDriving(Long id, TestDriving newTestDriving) {
         TestDriving oldTestDriving = this.getTestDriving(id);
         if(oldTestDriving != null) {
             oldTestDriving.setTestDate(newTestDriving.getTestDate());
             oldTestDriving.setConfirmed(newTestDriving.isConfirmed());
             testDrivingRepository.save(oldTestDriving);
         }
+        return oldTestDriving;
     }
 }

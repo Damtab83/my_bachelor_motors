@@ -1,5 +1,7 @@
 package com.damtab.my_bachelor_motors.controller;
 
+import com.damtab.my_bachelor_motors.dto.mapper.DocumentMapper;
+import com.damtab.my_bachelor_motors.dto.response.DocumentResponseDto;
 import com.damtab.my_bachelor_motors.entity.Document;
 import com.damtab.my_bachelor_motors.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +22,33 @@ public class DocumentController {
     //Differents routing for..
     @Autowired
     private DocumentService documentService;
+    @Autowired
+    private DocumentMapper documentMapper;
+
+    public DocumentController(DocumentService documentService, DocumentMapper documentMapper) {
+        this.documentService = documentService;
+        this.documentMapper = documentMapper;
+    }
 
     //Get All PDF Documents
     @GetMapping
-    public ResponseEntity<Object> getAllDocument() {
-        List<Document> myListDocument = documentService.getAllDocuments();
-        return ResponseEntity.status(HttpStatus.OK).body(myListDocument);
+    public ResponseEntity<List<DocumentResponseDto>> getAllDocument() {
+        List<DocumentResponseDto> myListDocument = documentService.getAllDocuments()
+                .stream()
+                .map(documentMapper::toResponseDto)
+                .toList();
+        return ResponseEntity.ok(myListDocument);
     }
 
     //Get Document By ID
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getDocumentById(@PathVariable Long id) {
+    public ResponseEntity<DocumentResponseDto> getDocumentById(@PathVariable Long id) {
         Document doc = documentService.getDocument(id);
-        return doc != null ? ResponseEntity.status(HttpStatus.OK).body(doc) :
-                ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        if (doc == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(documentMapper.toResponseDto(doc));
+
     }
 
     //Download Document By Id
