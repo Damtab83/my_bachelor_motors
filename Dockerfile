@@ -11,7 +11,7 @@ FROM eclipse-temurin:21-jre-alpine-3.24
 
 WORKDIR /app
 
-COPY target/*.war app.war
+COPY --from=build /app/target/*.war app.war
 
 ENV PORT 8080
 
