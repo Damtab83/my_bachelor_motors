@@ -17,6 +17,13 @@ app:
   expiration-time: ${DB_EXPIRATION_TIME}
 logging:
   level:
+    root: warn
     org:
+      hibernate: error
       springframework:
-        security: TRACE
+        security: INFO
+        web: debug
+
+  file:
+    path: ./src/main/resources/static/logs/
+    name: ./src/main/resources/static/logs/my-app-logs
