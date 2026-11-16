@@ -2,8 +2,13 @@ package com.damtab.my_bachelor_motors.dto.mapper;
 
 import com.damtab.my_bachelor_motors.dto.request.CarRequestDto;
 import com.damtab.my_bachelor_motors.dto.response.CarResponseDto;
+import com.damtab.my_bachelor_motors.dto.response.TestDrivingResponseDto;
 import com.damtab.my_bachelor_motors.entity.Car;
+import com.damtab.my_bachelor_motors.entity.ImageCar;
+import com.damtab.my_bachelor_motors.entity.TestDriving;
 import org.springframework.stereotype.Component;
+
+import java.util.Collections;
 
 @Component
 public class CarMapper  {
@@ -28,7 +33,25 @@ public class CarMapper  {
                 car.getModel(),
                 car.getMotorisation(),
                 car.getKilometer(),
-                car.getPrice()
+                car.getPrice(),
+                car.getImageCars() == null
+                        ? Collections.emptyList()
+                        : car.getImageCars()
+                        .stream()
+                        .map(image ->image.getImageCarId())
+                        .toList(),
+                toTestDrivingResponseDto(car.getTestDriving())
+        );
+    }
+
+    public TestDrivingResponseDto toTestDrivingResponseDto(TestDriving testDriving) {
+        if(testDriving == null) {
+            return null;
+        }
+        return new TestDrivingResponseDto(
+                testDriving.getTestDrivingId(),
+                testDriving.getTestDate(),
+                testDriving.isConfirmed()
         );
     }
 }
