@@ -1,6 +1,0 @@
-2026-11-16 13:45:19.923 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-11-16 13:45:21.562 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userCustomDetailsService
-2026-11-16 13:45:23.415 DEBUG [restartedMain] o.s.w.s.m.m.a.RequestMappingHandlerMapping - 32 mappings in 'requestMappingHandlerMapping'
-2026-11-16 13:45:28.257 DEBUG [restartedMain] o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
-2026-11-16 13:45:42.641 DEBUG [restartedMain] o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
-2026-11-16 13:45:47.776 DEBUG [restartedMain] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice

@@ -1,7 +1,0 @@
-2026-11-16 14:05:50.308 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 146 ms. Found 0 JDBC repository interfaces.
-2026-11-16 14:05:50.372 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
-2026-11-16 14:05:50.373 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-11-16 14:05:50.656 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 260 ms. Found 7 JPA repository interfaces.
-2026-11-16 14:05:53.487 INFO  [restartedMain] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2026-11-16 14:05:53.492 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
-2026-11-16 14:05:53.525 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]

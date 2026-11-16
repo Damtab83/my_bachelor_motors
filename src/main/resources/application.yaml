@@ -21,9 +21,20 @@ app:
   #expiration-time: ${DB_EXPIRATION_TIME}
   expiration-time: 900000
 logging:
+  pattern.console: %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 30
   level:
+    root: INFO
+    com:
+      damtab:
+        my_bachelor_motors: DEBUG
     org:
       hibernate: error
       springframework:
         security: INFO
         web: debug
+  file:
+    name: ./logs/my-app-logs.log

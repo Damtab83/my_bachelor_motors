@@ -5,6 +5,8 @@ import com.damtab.my_bachelor_motors.dto.request.TestDrivingRequestDto;
 import com.damtab.my_bachelor_motors.dto.response.TestDrivingResponseDto;
 import com.damtab.my_bachelor_motors.entity.TestDriving;
 import com.damtab.my_bachelor_motors.service.TestDrivingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,9 @@ import java.util.List;
 @RestController
 @RequestMapping(ApiRegistration.REST_API + ApiRegistration.REST_TESTDRIVING)
 public class TestDrivingController {
+
+    private static final Logger log =
+            LoggerFactory.getLogger(TestDrivingController.class);
 
     //Differents routing for...
     @Autowired
@@ -34,6 +39,7 @@ public class TestDrivingController {
                 .stream()
                 .map(testDrivingMapper::toResponseDto)
                 .toList();
+        log.info("Requête GET terminée : {} essai de voiture(s) récupé(s)");
         return ResponseEntity.ok(myListTestDriving);
     }
 
@@ -44,6 +50,7 @@ public class TestDrivingController {
         if (myTestDriving == null) {
             return ResponseEntity.notFound().build();
         }
+        log.info("Requête GET reçue : récupération de l'essai voiture ID={}", id);
         return ResponseEntity.ok(testDrivingMapper.toResponseDto(myTestDriving));
     }
 
@@ -52,6 +59,8 @@ public class TestDrivingController {
     public ResponseEntity<TestDrivingResponseDto> createTestDriving (@RequestBody TestDrivingRequestDto requestDto) {
         TestDriving newTest = testDrivingMapper.toEntity(requestDto);
         TestDriving savedTest = testDrivingService.createTestDriving(newTest);
+        log.info("Requête POST terminée : voiture ID={}",
+                savedTest.getTestDrivingId());
         return ResponseEntity.status(HttpStatus.CREATED).body(testDrivingMapper.toResponseDto(savedTest));
     }
 
@@ -59,6 +68,7 @@ public class TestDrivingController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteTestDriving (@PathVariable Long id) {
         Boolean isDelete = testDrivingService.deleteTestDriving(id);
+        log.info("Requête DELETE terminée : essai voiture ID={} supprimé", id);
         return isDelete ? ResponseEntity.status(HttpStatus.OK).build() :
                 ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }

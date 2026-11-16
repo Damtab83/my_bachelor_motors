@@ -4,6 +4,8 @@ import com.damtab.my_bachelor_motors.dto.mapper.DocumentMapper;
 import com.damtab.my_bachelor_motors.dto.response.DocumentResponseDto;
 import com.damtab.my_bachelor_motors.entity.Document;
 import com.damtab.my_bachelor_motors.service.DocumentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,9 @@ import java.util.List;
 @RestController
 @RequestMapping(ApiRegistration.REST_API + ApiRegistration.REST_DOCUMENT)
 public class DocumentController {
+
+    private static final Logger log =
+            LoggerFactory.getLogger(DocumentController.class);
 
     //Differents routing for..
     @Autowired
@@ -37,6 +42,7 @@ public class DocumentController {
                 .stream()
                 .map(documentMapper::toResponseDto)
                 .toList();
+        log.info("Requête GET terminée : {} document(s) récupé(s)");
         return ResponseEntity.ok(myListDocument);
     }
 
@@ -47,6 +53,7 @@ public class DocumentController {
         if (doc == null) {
             return ResponseEntity.notFound().build();
         }
+        log.info("Requête GET reçue : récupération du document ID={}", id);
         return ResponseEntity.ok(documentMapper.toResponseDto(doc));
 
     }
@@ -55,7 +62,7 @@ public class DocumentController {
     @GetMapping("/{id}/download")
     public ResponseEntity<byte[]> download(@PathVariable Long id) {
         Document doc = documentService.getDocument(id);
-
+        log.info("Téléchargement du document");
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"" + doc.getName() + "\"")
@@ -67,6 +74,7 @@ public class DocumentController {
     @PostMapping("/upload")
     public ResponseEntity<String> upload(@RequestParam MultipartFile file) throws IOException {
         documentService.uploadFile(file);
+        log.info("Envoi du document");
         return ResponseEntity.ok("Document enregistré");
     }
 }

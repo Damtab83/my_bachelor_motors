@@ -6,6 +6,8 @@ import com.damtab.my_bachelor_motors.dto.response.ImageCarResponseDto;
 import com.damtab.my_bachelor_motors.entity.Car;
 import com.damtab.my_bachelor_motors.entity.ImageCar;
 import com.damtab.my_bachelor_motors.service.ImageCarService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +21,9 @@ import java.util.List;
 @RestController
 @RequestMapping(ApiRegistration.REST_API + ApiRegistration.REST_IMAGE_CAR)
 public class ImageCarController {
+
+    private static final Logger log =
+            LoggerFactory.getLogger(ImageCarController.class);
 
     //Differents routing for...
     @Autowired
@@ -38,6 +43,7 @@ public class ImageCarController {
                 .stream()
                 .map(imageCarMapper::toResponseDto)
                 .toList();
+        log.info("Requête GET terminée : {} image(s) récupée(s)");
         return ResponseEntity.status(HttpStatus.OK).body(myListImageCar);
     }
 
@@ -45,6 +51,7 @@ public class ImageCarController {
     @GetMapping("/{id}")
     public ResponseEntity<ImageCarResponseDto> getImageCarById (@PathVariable Long id) {
         ImageCar myImageCar = imageCarService.getImageCarById(id);
+        log.info("Requête GET reçue : récupération de l'image ID={}", id);
         return ResponseEntity.ok(imageCarMapper.toResponseDto(myImageCar));
     }
 
@@ -53,6 +60,8 @@ public class ImageCarController {
     public ResponseEntity<ImageCarResponseDto> createImageCar (@RequestBody ImageCarRequestDto requestDto) {
         ImageCar newImageCar = imageCarMapper.toEntity(requestDto);
         ImageCar savedImageCar = imageCarService.createImageCar(newImageCar);
+        log.info("Requête POST terminée : véhicule ID={}",
+                savedImageCar.getImageCarId());
         return ResponseEntity.status(HttpStatus.CREATED).body(imageCarMapper.toResponseDto(savedImageCar));
     }
 
@@ -66,6 +75,7 @@ public class ImageCarController {
     ) throws IOException {
 
         ImageCar image = imageCarService.saveImage(file, carId);
+        log.info("Upload de l'image terminé");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(image);
     }
@@ -74,6 +84,7 @@ public class ImageCarController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletImageCar (@PathVariable Long id) {
         boolean toDelete = imageCarService.deleteImageCar(id);
+        log.info("Requête DELETE terminée : image ID={} supprimée", id);
         return toDelete ? ResponseEntity.status(HttpStatus.OK).build() :
                 ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }

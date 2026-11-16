@@ -1,8 +1,0 @@
-2026-11-14 16:45:22.486 INFO  [restartedMain] c.d.m.MyBachelorMotorsApplication - Message de niveau INFO
-2026-11-14 16:45:22.587 WARN  [restartedMain] c.d.m.MyBachelorMotorsApplication - Message de niveau WARN
-2026-11-14 16:45:22.587 ERROR [restartedMain] c.d.m.MyBachelorMotorsApplication - Message de niveau ERROR
-2026-11-14 16:45:22.591 INFO  [restartedMain] o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-2026-11-14 16:46:10.107 INFO  [File Watcher] o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 2 class path changes (0 additions, 2 deletions, 0 modifications)
-2026-11-14 16:46:10.507 INFO  [Thread-7] o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
-2026-11-14 16:46:10.527 INFO  [tomcat-shutdown] o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8080"]
-2026-11-14 16:46:10.880 INFO  [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete

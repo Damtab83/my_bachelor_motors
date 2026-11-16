@@ -5,6 +5,8 @@ import com.damtab.my_bachelor_motors.dto.request.CarRequestDto;
 import com.damtab.my_bachelor_motors.dto.response.CarResponseDto;
 import com.damtab.my_bachelor_motors.entity.Car;
 import com.damtab.my_bachelor_motors.service.CarService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping(ApiRegistration.REST_API + ApiRegistration.REST_CAR)
 public class CarController {
+
+    private static final Logger log =
+            LoggerFactory.getLogger(CarController.class);
 
     //Differents routing for
     @Autowired
@@ -34,6 +39,7 @@ public class CarController {
                 .stream()
                 .map(carMapper::toResponseDto)
                 .toList();
+        log.info("Requête GET terminée : {} voiture(s) récupé(s)");
         return ResponseEntity.ok(myListCar);
     }
 
@@ -41,6 +47,7 @@ public class CarController {
     @GetMapping("{id}")
     public ResponseEntity<CarResponseDto> getCarById(@PathVariable long id) {
         Car myCar = carService.getCarById(id);
+        log.info("Requête GET reçue : récupération du voiture ID={}", id);
 
         if (myCar == null) {
             return ResponseEntity.notFound().build();
@@ -54,6 +61,8 @@ public class CarController {
     public ResponseEntity<CarResponseDto> createCar(@RequestBody CarRequestDto requestDto) {
         Car newcar = carMapper.toEntity(requestDto);
         Car savedCar = carService.createCar(newcar);
+        log.info("Requête POST terminée : voiture ID={}",
+                savedCar.getCarId());
         return ResponseEntity.status(HttpStatus.CREATED).body(carMapper.toResponseDto(savedCar));
     }
 
@@ -64,6 +73,7 @@ public class CarController {
         if(!deleted) {
             return ResponseEntity.notFound().build();
         }
+        log.info("Requête DELETE terminée : voiture ID={} supprimé", id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -73,7 +83,7 @@ public class CarController {
         Car carToUpdate = carMapper.toEntity(requestDto);
 
         Car updatedCar = carService.updateCar(id, carToUpdate);
-
+        log.info("Requête PUT terminée : voiture ID={} modifié", id);
         return ResponseEntity.ok(carMapper.toResponseDto(updatedCar));
     }
 }

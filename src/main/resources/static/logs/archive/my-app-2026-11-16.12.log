@@ -1,7 +1,0 @@
-2026-11-16 13:22:00.977 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2026-11-16 13:22:01.316 INFO  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2026-11-16 13:22:01.392 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
-2026-11-16 13:22:01.417 INFO  [restartedMain] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
-2026-11-16 13:22:01.441 INFO  [restartedMain] c.d.m.MyBachelorMotorsApplication - Started MyBachelorMotorsApplication in 11.245 seconds (process running for 614.887)
-2026-11-16 13:22:01.443 INFO  [restartedMain] c.d.m.MyBachelorMotorsApplication - Message de niveau INFO
-2026-11-16 13:22:01.445 WARN  [restartedMain] c.d.m.MyBachelorMotorsApplication - Message de niveau WARN

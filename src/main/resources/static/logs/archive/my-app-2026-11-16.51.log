@@ -1,5 +1,0 @@
-2026-11-16 13:44:04.720 WARN  [restartedMain] o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'carController' defined in file [C:\Users\damta\Desktop\Java_Workspace\my_bachelor_motors\target\classes\com\damtab\my_bachelor_motors\controller\CarController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'carService': Lookup method resolution failed
-2026-11-16 13:44:04.734 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2026-11-16 13:44:04.735 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown initiated...
-2026-11-16 13:44:04.887 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown completed.
-2026-11-16 13:44:04.889 INFO  [restartedMain] o.a.catalina.core.StandardService - Stopping service [Tomcat]

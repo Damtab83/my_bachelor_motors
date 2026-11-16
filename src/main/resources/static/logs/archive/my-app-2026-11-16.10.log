@@ -1,8 +1,0 @@
-2026-11-16 13:21:57.960 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
-2026-11-16 13:21:58.110 INFO  [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2026-11-16 13:21:58.111 INFO  [restartedMain] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 5050 ms
-2026-11-16 13:21:58.403 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-11-16 13:21:58.409 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
-2026-11-16 13:21:58.599 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection org.mariadb.jdbc.Connection@4a59fb97
-2026-11-16 13:21:58.600 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
-2026-11-16 13:21:58.732 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'

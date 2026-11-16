@@ -1,8 +1,0 @@
-2026-11-16 13:40:07.155 INFO  [Thread-11] o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
-2026-11-16 13:40:07.257 INFO  [tomcat-shutdown] o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8080"]
-2026-11-16 13:40:07.345 INFO  [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
-2026-11-16 13:40:07.366 INFO  [Thread-11] o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
-2026-11-16 13:40:07.555 INFO  [Thread-11] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2026-11-16 13:40:07.646 INFO  [Thread-11] com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
-2026-11-16 13:40:07.983 INFO  [Thread-11] com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
-2026-11-16 13:40:16.634 INFO  [restartedMain] c.d.m.MyBachelorMotorsApplication - Starting MyBachelorMotorsApplication using Java 23.0.2 with PID 12404 (C:\Users\damta\Desktop\Java_Workspace\my_bachelor_motors\target\classes started by damta in C:\Users\damta\Desktop\Java_Workspace\my_bachelor_motors)

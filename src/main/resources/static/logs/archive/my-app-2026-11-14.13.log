@@ -1,6 +1,0 @@
-2026-11-14 16:47:10.254 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
-2026-11-14 16:47:14.415 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-11-14 16:47:15.811 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-11-14 16:47:15.946 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userCustomDetailsService
-2026-11-14 16:47:16.523 DEBUG [restartedMain] o.s.w.s.m.m.a.RequestMappingHandlerMapping - 35 mappings in 'requestMappingHandlerMapping'
-2026-11-14 16:47:17.019 DEBUG [restartedMain] o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**] in 'resourceHandlerMapping'

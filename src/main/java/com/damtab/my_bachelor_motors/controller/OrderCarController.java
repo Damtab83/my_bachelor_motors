@@ -6,6 +6,8 @@ import com.damtab.my_bachelor_motors.dto.response.OrderCarResponseDto;
 import com.damtab.my_bachelor_motors.entity.Car;
 import com.damtab.my_bachelor_motors.entity.OrderCar;
 import com.damtab.my_bachelor_motors.service.OrderCarService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,9 @@ import java.util.List;
 @RestController
 @RequestMapping(ApiRegistration.REST_API + ApiRegistration.REST_ORDER)
 public class OrderCarController {
+
+    private static final Logger log =
+            LoggerFactory.getLogger(OrderCarController.class);
 
     //Different routing for...
     @Autowired
@@ -35,6 +40,7 @@ public class OrderCarController {
                 .stream()
                 .map(orderCarMapper::toResponseDto)
                 .toList();
+        log.info("Requête GET terminée : {} commande(s) récupée(s)");
         return ResponseEntity.ok(myListOrder);
     }
 
@@ -46,6 +52,7 @@ public class OrderCarController {
         if (order == null) {
             return ResponseEntity.notFound().build();
         }
+        log.info("Requête GET reçue : récupération de commande ID={}", id);
         return ResponseEntity.ok(orderCarMapper.toResponseDto(order));
     }
 
@@ -54,6 +61,8 @@ public class OrderCarController {
     public ResponseEntity<OrderCarResponseDto> createOrder(@RequestBody OrderCarRequestDto requestDto) {
         OrderCar newOrder = orderCarMapper.toEntity(requestDto);
         OrderCar savedOldCar = orderService.createOrder(newOrder);
+        log.info("Requête POST terminée : commande ID={}",
+                savedOldCar.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(orderCarMapper.toResponseDto(savedOldCar));
     }
 
@@ -61,6 +70,7 @@ public class OrderCarController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         boolean toDelete = orderService.deleteOrder(id);
+        log.info("Requête DELETE terminée : commande ID={} supprimée", id);
         return toDelete ? ResponseEntity.status(HttpStatus.OK).build() :
                 ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
@@ -70,6 +80,7 @@ public class OrderCarController {
     public ResponseEntity<OrderCarResponseDto> updateOrder(@PathVariable Long id, @RequestBody OrderCarRequestDto requestDto) {
         OrderCar orderToUpdate = orderCarMapper.toEntity(requestDto);
         OrderCar newOrder = orderService.updateOrder(id, orderToUpdate);
+        log.info("Requête PUT terminée : commande ID={} modifiée", id);
         return ResponseEntity.ok(orderCarMapper.toResponseDto(newOrder));
     }
 }
