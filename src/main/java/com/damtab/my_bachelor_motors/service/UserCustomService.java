@@ -34,7 +34,7 @@ public class UserCustomService {
     public UserCustom getUserCustomById(Long id) {
         return userCustomRepository.findById(id)
                 .orElseThrow(() -> {
-                    log.warn("Aucun client trouvée avec l'identifiant : {}", id);
+                    log.warn("Aucun client trouvée");
                     return new ResourceNotFoundException("Aucun client trouvé");
                 });
 
@@ -45,7 +45,7 @@ public class UserCustomService {
         Boolean toDelete = userCustomRepository.existsById(id);
         if(toDelete) {
             userCustomRepository.deleteById(id);
-            log.info("Client supprimé avec succès. Identifiant : {}", id);
+            log.info("Client supprimé avec succès.");
         }
         return toDelete;
     }

@@ -39,7 +39,7 @@ public class UserCustomController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUserCutomById(@PathVariable Long id) {
         UserCustom myUserCustom = userCustomService.getUserCustomById(id);
-        log.info("Requête GET reçue : récupération du client ID={}", id);
+        log.info("Requête GET reçue : récupération du client");
         return myUserCustom == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).build() :
                 ResponseEntity.status(HttpStatus.OK).body(myUserCustom);
     }
@@ -48,7 +48,7 @@ public class UserCustomController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUserCustom(@PathVariable Long id) {
         boolean isDelete = userCustomService.deleteUserCustom(id);
-        log.info("Requête DELETE terminée : client ID={} supprimé", id);
+        log.info("Requête DELETE terminée : client supprimé");
         return isDelete ? ResponseEntity.status(HttpStatus.OK).build() :
                 ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
