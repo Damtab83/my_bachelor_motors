@@ -6,6 +6,8 @@ import com.damtab.my_bachelor_motors.exception.ResourceNotFoundException;
 import com.damtab.my_bachelor_motors.repository.CarRepository;
 import com.damtab.my_bachelor_motors.repository.ImageCarRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +19,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ImageCarService {
 
+    private static final Logger log =
+            LoggerFactory.getLogger(ImageCarService.class);
+
     //Create CRUD for Imager-Car
     //Update Image-Car not Exist, for modify image delete it and create an other image
     private final ImageCarRepository imageCarRepository;
@@ -27,6 +32,7 @@ public class ImageCarService {
     //Read List of Images
     public List<ImageCar> getAllImageCars() {
         List<ImageCar> images = imageCarRepository.findAll();
+        log.debug("Nombre de images de voitures récupérées : {}", images.size());
 
         if (images.isEmpty()) {
             throw new ResourceNotFoundException("Aucunes images trouvées");
@@ -39,20 +45,27 @@ public class ImageCarService {
     public ImageCar getImageCarById(Long id) {
 
         return imageCarRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Aucune image trouvée"));
+                .orElseThrow(() -> {
+                    log.warn("Aucune image de voiture trouvée avec l'identifiant : {}", id);
+                    return new ResourceNotFoundException("Aucune image trouvée");
+                });
+
     }
 
     //Create Image-Car
     public void createImageCar(ImageCar newImage) {
-        imageCarRepository.save(newImage);
+
+        ImageCar images = imageCarRepository.save(newImage);
+
+        log.info("Image de voiture créée avec succès. Identifiant : {}", images.getImageCarId());
     }
 
     //Delete Image-Car
     public boolean deleteImageCar(Long id) {
-        Boolean toDelete = imageCarRepository.existsById(id);
+        boolean toDelete = imageCarRepository.existsById(id);
         if (toDelete) {
             imageCarRepository.deleteById(id);
+            log.info("Image de voiture supprimée avec succès. Identifiant : {}", id);
         }
         return toDelete;
     }
@@ -89,6 +102,7 @@ public class ImageCarService {
         imageCar.setImageData(file.getBytes());
         imageCar.setCar(car);
 
+        log.info("Image de voiture téléchargée avec succès. Identifiant : {}", imageCar.getImageCarId());
         return imageCarRepository.save(imageCar);
     }
 }

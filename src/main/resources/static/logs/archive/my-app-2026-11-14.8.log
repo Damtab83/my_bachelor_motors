@@ -1,0 +1,7 @@
+2026-11-14 16:46:10.882 INFO  [Thread-7] o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2026-11-14 16:46:10.992 INFO  [Thread-7] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-14 16:46:11.047 INFO  [Thread-7] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2026-11-14 16:46:11.172 INFO  [Thread-7] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2026-11-14 16:47:04.040 INFO  [restartedMain] c.d.m.MyBachelorMotorsApplication - Starting MyBachelorMotorsApplication using Java 23.0.2 with PID 11876 (C:\Users\damta\Desktop\Java_Workspace\my_bachelor_motors\target\classes started by damta in C:\Users\damta\Desktop\Java_Workspace\my_bachelor_motors)
+2026-11-14 16:47:04.042 INFO  [restartedMain] c.d.m.MyBachelorMotorsApplication - No active profile set, falling back to 1 default profile: "default"
+2026-11-14 16:47:06.170 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode

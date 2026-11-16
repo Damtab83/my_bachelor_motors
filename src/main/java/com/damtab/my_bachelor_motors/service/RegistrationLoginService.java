@@ -9,6 +9,8 @@ import com.damtab.my_bachelor_motors.entity.Role;
 import com.damtab.my_bachelor_motors.entity.UserCustom;
 import com.damtab.my_bachelor_motors.repository.UserCustomRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +22,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class RegistrationLoginService {
+
+    private static final Logger log =
+            LoggerFactory.getLogger(RegistrationLoginService.class);
 
     //Create and connecting account
     private final UserCustomRepository userCustomRepository;
@@ -42,21 +47,10 @@ public class RegistrationLoginService {
 
 
         userCustomRepository.save(userCustom);
+        log.info("Utilisateur créé");
         return ResponseEntity.ok("Utilisateur enregistré");
     }
 
-
-    //Authentication with login or invalid false email
-//    public ResponseEntity<?> loginUserCustom(LoginUserCustomDto userCustom) {
-//        try {
-//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userCustom.email(), userCustom.password()));
-//            String token = jwtUtils.generateToken(userCustom.email());
-//            return ResponseEntity.ok(
-//                    token);
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email ou mot de passe invalide");
-//        }
-//    }
 
     public ResponseEntity<?> loginUserCustom(LoginUserCustomDto credentials) {
         final String authenticatedEmail;
@@ -69,12 +63,14 @@ public class RegistrationLoginService {
                     )
             ).getName();
         } catch(AuthenticationException e) {
+            log.info("Erreur email ou mot de passe");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Email ou mot de passe invalide");
         }
 
         UserCustom userCustom = userCustomRepository.findByEmail(authenticatedEmail);
         if(userCustom == null) {
+            log.info("Erreur utilisateur");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Utilisateur introuvable");
         }

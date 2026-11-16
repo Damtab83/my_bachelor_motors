@@ -1,0 +1,6 @@
+2026-11-14 16:45:15.462 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection org.mariadb.jdbc.Connection@658b63fb
+2026-11-14 16:45:15.484 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2026-11-14 16:45:20.065 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-14 16:45:21.031 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-11-14 16:45:21.061 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userCustomDetailsService
+2026-11-14 16:45:21.194 DEBUG [restartedMain] o.s.w.s.m.m.a.RequestMappingHandlerMapping - 35 mappings in 'requestMappingHandlerMapping'

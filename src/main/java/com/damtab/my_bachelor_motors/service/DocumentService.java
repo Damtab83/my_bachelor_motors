@@ -4,6 +4,8 @@ import com.damtab.my_bachelor_motors.entity.Document;
 import com.damtab.my_bachelor_motors.exception.ResourceNotFoundException;
 import com.damtab.my_bachelor_motors.repository.DocumentRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,12 +16,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DocumentService {
 
+    private static final Logger log =
+            LoggerFactory.getLogger(DocumentService.class);
+
     //Download and Upload PDF
     private final DocumentRepository documentRepository;
 
     //Get List of PDF
     public List<Document> getAllDocuments() {
         List<Document> myListDocuments = documentRepository.findAll();
+        log.debug("Nombre de documents récupérées : {}", myListDocuments.size());
         if(myListDocuments.isEmpty()) {
             throw new ResourceNotFoundException("Aucuns documents trouvés");
         }
@@ -29,8 +35,10 @@ public class DocumentService {
     //Get PDF by Id
     public Document getDocument(Long id) {
         return documentRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Aucun document trouvé"));
+                .orElseThrow(() -> {
+                    log.warn("Aucun document trouvée avec l'identifiant : {}", id);
+                    return new ResourceNotFoundException("Aucun document trouvé");
+                });
     }
 
     //Uploading PDF for buy or rent Car
@@ -61,6 +69,7 @@ public class DocumentService {
         doc.setMimeType(newFile.getContentType());
         doc.setContenu(newFile.getBytes());
 
+        log.info("Document téléchargé avec succès", doc.getId());
         return documentRepository.save(doc);
     }
 }

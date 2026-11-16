@@ -3,6 +3,8 @@ package com.damtab.my_bachelor_motors.service;
 import com.damtab.my_bachelor_motors.entity.UserCustom;
 import com.damtab.my_bachelor_motors.repository.UserCustomRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
