@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -45,9 +44,10 @@ public class TestDrivingService {
     }
 
     //Create TestDriving
-    public void createTestDriving(TestDriving newTest) {
+    public TestDriving createTestDriving(TestDriving newTest) {
         TestDriving testSaved = testDrivingRepository.save(newTest);
         log.info("Essai de voiture créée avec succès. Identifiant : {}", testSaved.getTestDrivingId());
+        return testSaved;
     }
 
     //Delete TestDriving Car
@@ -61,7 +61,7 @@ public class TestDrivingService {
     }
 
     //Update for change date and time for Testing Driving Car
-    public void updateTestDriving(Long id, TestDriving newTestDriving) {
+    public TestDriving updateTestDriving(Long id, TestDriving newTestDriving) {
         TestDriving oldTestDriving = this.getTestDriving(id);
         if(oldTestDriving != null) {
             oldTestDriving.setTestDate(newTestDriving.getTestDate());
@@ -69,5 +69,6 @@ public class TestDrivingService {
             testDrivingRepository.save(oldTestDriving);
             log.info("Essai de voiture modifiée avec succès. Identifiant : {}", id);
         }
+        return oldTestDriving;
     }
 }

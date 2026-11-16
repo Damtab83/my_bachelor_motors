@@ -40,15 +40,16 @@ public class OrderCarService {
     }
 
     //Create OrderCar
-    public void createOrder(OrderCar newOrder) {
+    public OrderCar createOrder(OrderCar newOrder) {
 
         OrderCar savedOrder = orderRepository.save(newOrder);
         log.info("Commande créée avec succès. Identifiant : {}", savedOrder.getId());
+        return savedOrder;
     }
 
     //Delete OrderCar
     public boolean deleteOrder(Long id) {
-        Boolean toDelete = orderRepository.existsById(id);
+        boolean toDelete = orderRepository.existsById(id);
         if (toDelete) {
             orderRepository.deleteById(id);
             log.info("Commande supprimée avec succès. Identifiant : {}", id);
@@ -57,7 +58,7 @@ public class OrderCarService {
     }
 
     //Update OrderCar for change Buy to Rent and inverse
-    public void updateOrder(Long id, OrderCar newOrder) {
+    public OrderCar updateOrder(Long id, OrderCar newOrder) {
         OrderCar oldOrder = this.getOrderById(id);
         if(oldOrder != null) {
             oldOrder.setCar(newOrder.getCar());
@@ -68,5 +69,6 @@ public class OrderCarService {
             orderRepository.save(oldOrder);
             log.info("Commande modifiée avec succès. Identifiant : {}", id);
         }
+        return oldOrder;
     }
 }

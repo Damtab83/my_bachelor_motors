@@ -1,0 +1,6 @@
+2026-11-16 13:22:08.871 INFO  [restartedMain] c.d.m.MyBachelorMotorsApplication - Starting MyBachelorMotorsApplication using Java 23.0.2 with PID 12404 (C:\Users\damta\Desktop\Java_Workspace\my_bachelor_motors\target\classes started by damta in C:\Users\damta\Desktop\Java_Workspace\my_bachelor_motors)
+2026-11-16 13:22:10.203 INFO  [restartedMain] c.d.m.MyBachelorMotorsApplication - No active profile set, falling back to 1 default profile: "default"
+2026-11-16 13:22:12.786 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-16 13:22:12.794 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-11-16 13:22:12.801 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 4 ms. Found 0 JDBC repository interfaces.
+2026-11-16 13:22:12.818 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode

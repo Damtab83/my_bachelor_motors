@@ -1,5 +1,8 @@
 package com.damtab.my_bachelor_motors.controller;
 
+import com.damtab.my_bachelor_motors.dto.mapper.CarMapper;
+import com.damtab.my_bachelor_motors.dto.request.CarRequestDto;
+import com.damtab.my_bachelor_motors.dto.response.CarResponseDto;
 import com.damtab.my_bachelor_motors.entity.Car;
 import com.damtab.my_bachelor_motors.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,34 +20,41 @@ public class CarController {
     //Differents routing for
     @Autowired
     private CarService carService;
+    @Autowired
+    private CarMapper carMapper;
 
+    public CarController(CarService carService, CarMapper carMapper) {
+        this.carService = carService;
+        this.carMapper = carMapper;
+    }
     //Get List of Cars
     @GetMapping
-    public ResponseEntity<Object> getAllCars() {
-        List<Car> myListCar = carService.getAllCars();
-//        if(myListCar == null || myListCar.isEmpty()) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        return ResponseEntity.status(HttpStatus.OK).body(myListCar);
-        if(myListCar.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<List<CarResponseDto>> getAllCars() {
+        List<CarResponseDto> myListCar = carService.getAllCars()
+                .stream()
+                .map(carMapper::toResponseDto)
+                .toList();
         return ResponseEntity.ok(myListCar);
     }
 
     //Get Car By Id
     @GetMapping("{id}")
-    public ResponseEntity<Object> getCarById(@PathVariable long id) {
+    public ResponseEntity<CarResponseDto> getCarById(@PathVariable long id) {
         Car myCar = carService.getCarById(id);
-        return myCar == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).build() :
-                ResponseEntity.status(HttpStatus.OK).body(myCar);
+
+        if (myCar == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(carMapper.toResponseDto(myCar));
+
     }
 
     //Create Car
     @PostMapping
-    public ResponseEntity<Object> createCar(@RequestBody Car newCar) {
-        carService.createCar(newCar);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<CarResponseDto> createCar(@RequestBody CarRequestDto requestDto) {
+        Car newcar = carMapper.toEntity(requestDto);
+        Car savedCar = carService.createCar(newcar);
+        return ResponseEntity.status(HttpStatus.CREATED).body(carMapper.toResponseDto(savedCar));
     }
 
     //Delete Car
@@ -59,8 +69,11 @@ public class CarController {
 
     //Update Car
     @PutMapping("{id}")
-    public ResponseEntity<Object> updatedCarById(@PathVariable Long id, @RequestBody Car newCar) {
-        carService.updateCar(id, newCar);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<CarResponseDto> updatedCarById(@PathVariable Long id, @RequestBody CarRequestDto requestDto) {
+        Car carToUpdate = carMapper.toEntity(requestDto);
+
+        Car updatedCar = carService.updateCar(id, carToUpdate);
+
+        return ResponseEntity.ok(carMapper.toResponseDto(updatedCar));
     }
 }

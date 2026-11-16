@@ -1,0 +1,7 @@
+2026-11-16 13:44:33.300 INFO  [restartedMain] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4482 ms
+2026-11-16 13:44:34.535 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-16 13:44:34.538 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Starting...
+2026-11-16 13:44:34.664 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-11 - Added connection org.mariadb.jdbc.Connection@27b8f607
+2026-11-16 13:44:34.664 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Start completed.
+2026-11-16 13:44:38.883 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-16 13:44:41.812 WARN  [restartedMain] o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'carController' defined in file [C:\Users\damta\Desktop\Java_Workspace\my_bachelor_motors\target\classes\com\damtab\my_bachelor_motors\controller\CarController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'carService': Lookup method resolution failed

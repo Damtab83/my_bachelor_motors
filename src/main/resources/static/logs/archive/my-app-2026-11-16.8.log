@@ -1,0 +1,7 @@
+2026-11-16 13:20:49.092 INFO  [Thread-5] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-16 13:20:49.340 INFO  [Thread-5] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-11-16 13:20:49.578 INFO  [Thread-5] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-11-16 13:21:52.630 INFO  [restartedMain] c.d.m.MyBachelorMotorsApplication - Starting MyBachelorMotorsApplication using Java 23.0.2 with PID 12404 (C:\Users\damta\Desktop\Java_Workspace\my_bachelor_motors\target\classes started by damta in C:\Users\damta\Desktop\Java_Workspace\my_bachelor_motors)
+2026-11-16 13:21:52.632 INFO  [restartedMain] c.d.m.MyBachelorMotorsApplication - No active profile set, falling back to 1 default profile: "default"
+2026-11-16 13:21:56.422 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-11-16 13:21:56.423 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.

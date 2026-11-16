@@ -43,16 +43,17 @@ public class OldCarService {
     }
 
     //Create Old-Car
-    public void createOldCar(OldCar newOldCar) {
+
+    public OldCar createOldCar(OldCar newOldCar) {
 
         OldCar oldCar = oldCarRepository.save(newOldCar);
-
         log.info("Ancienne voiture créée avec succès. Identifiant : {}", oldCar.getOldCarId());
+        return oldCar;
     }
 
     //Delete Old-Car
     public boolean deleteOldCar(Long id) {
-        Boolean toDelete = oldCarRepository.existsById(id);
+        boolean toDelete = oldCarRepository.existsById(id);
         if(toDelete) {
             oldCarRepository.deleteById(id);
             log.info("Ancienne voiture supprimée avec succès. Identifiant : {}", id);

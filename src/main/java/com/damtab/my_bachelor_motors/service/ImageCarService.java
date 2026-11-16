@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -53,11 +52,13 @@ public class ImageCarService {
     }
 
     //Create Image-Car
-    public void createImageCar(ImageCar newImage) {
+
+    public ImageCar createImageCar(ImageCar newImage) {
 
         ImageCar images = imageCarRepository.save(newImage);
-
         log.info("Image de voiture créée avec succès. Identifiant : {}", images.getImageCarId());
+        return images;
+
     }
 
     //Delete Image-Car

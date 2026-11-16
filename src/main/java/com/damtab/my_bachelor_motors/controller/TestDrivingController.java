@@ -1,5 +1,8 @@
 package com.damtab.my_bachelor_motors.controller;
 
+import com.damtab.my_bachelor_motors.dto.mapper.TestDrivingMapper;
+import com.damtab.my_bachelor_motors.dto.request.TestDrivingRequestDto;
+import com.damtab.my_bachelor_motors.dto.response.TestDrivingResponseDto;
 import com.damtab.my_bachelor_motors.entity.TestDriving;
 import com.damtab.my_bachelor_motors.service.TestDrivingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,30 +19,40 @@ public class TestDrivingController {
     //Differents routing for...
     @Autowired
     private TestDrivingService testDrivingService;
+    @Autowired
+    private TestDrivingMapper testDrivingMapper;
+
+    public TestDrivingController(TestDrivingService testDrivingService, TestDrivingMapper testDrivingMapper) {
+        this.testDrivingService = testDrivingService;
+        this.testDrivingMapper = testDrivingMapper;
+    }
 
     //Get List of TestDriving
     @GetMapping
-    public ResponseEntity<Object> getAllTestDriving () {
-        List<TestDriving> myListTestDriving = testDrivingService.getAllTestDriving();
-        if(myListTestDriving == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(myListTestDriving);
+    public ResponseEntity<List<TestDrivingResponseDto>> getAllTestDriving () {
+        List<TestDrivingResponseDto> myListTestDriving = testDrivingService.getAllTestDriving()
+                .stream()
+                .map(testDrivingMapper::toResponseDto)
+                .toList();
+        return ResponseEntity.ok(myListTestDriving);
     }
 
     //Get TestDriving By Id
     @GetMapping("/{id}")
-    public ResponseEntity<Object>getTestDrivingById(@PathVariable Long id) {
+    public ResponseEntity<TestDrivingResponseDto>getTestDrivingById(@PathVariable Long id) {
         TestDriving myTestDriving = testDrivingService.getTestDriving(id);
-        return myTestDriving == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).build() :
-                ResponseEntity.status(HttpStatus.OK).body(myTestDriving);
+        if (myTestDriving == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(testDrivingMapper.toResponseDto(myTestDriving));
     }
 
     //Create TestDriving
     @PostMapping
-    public ResponseEntity<Object> createTestDriving (@RequestBody TestDriving myTestDriving) {
-        testDrivingService.createTestDriving(myTestDriving);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<TestDrivingResponseDto> createTestDriving (@RequestBody TestDrivingRequestDto requestDto) {
+        TestDriving newTest = testDrivingMapper.toEntity(requestDto);
+        TestDriving savedTest = testDrivingService.createTestDriving(newTest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(testDrivingMapper.toResponseDto(savedTest));
     }
 
     //Delete TestDriving
@@ -52,8 +65,9 @@ public class TestDrivingController {
 
     //Update TestDriving
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateTestDriving (@PathVariable Long id, @RequestBody TestDriving newTestDriving) {
-        testDrivingService.updateTestDriving(id, newTestDriving);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<TestDrivingResponseDto> updateTestDriving (@PathVariable Long id, @RequestBody TestDrivingRequestDto newRequestDto) {
+        TestDriving testToUpdate = testDrivingMapper.toEntity(newRequestDto);
+        TestDriving updatedTest = testDrivingService.updateTestDriving(id, testToUpdate);
+        return ResponseEntity.ok(testDrivingMapper.toResponseDto(updatedTest));
     }
 }

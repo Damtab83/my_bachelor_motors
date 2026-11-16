@@ -4,14 +4,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Future;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class TestDriving {
@@ -19,6 +19,7 @@ public class TestDriving {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long testDrivingId;
+    @Future(message = "L'essai doit être organiserdans le futur")
     private LocalDateTime testDate;
     private boolean confirmed;
 }

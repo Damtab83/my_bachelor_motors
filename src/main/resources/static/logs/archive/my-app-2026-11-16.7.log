@@ -1,0 +1,8 @@
+2026-11-16 13:12:20.652 INFO  [restartedMain] c.d.m.MyBachelorMotorsApplication - Message de niveau INFO
+2026-11-16 13:12:20.656 WARN  [restartedMain] c.d.m.MyBachelorMotorsApplication - Message de niveau WARN
+2026-11-16 13:12:20.657 ERROR [restartedMain] c.d.m.MyBachelorMotorsApplication - Message de niveau ERROR
+2026-11-16 13:20:47.482 INFO  [File Watcher] o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 9 class path changes (7 additions, 0 deletions, 2 modifications)
+2026-11-16 13:20:48.280 INFO  [Thread-5] o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-11-16 13:20:48.403 INFO  [tomcat-shutdown] o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8080"]
+2026-11-16 13:20:48.956 INFO  [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-11-16 13:20:48.970 INFO  [Thread-5] o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]

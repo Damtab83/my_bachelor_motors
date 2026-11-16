@@ -24,7 +24,9 @@ public class CarService {
     //Read List of Cars
     public List<Car> getAllCars() {
         List<Car> cars = carRepository.findAll();
+
         log.debug("Nombre de voitures récupérées : {}", cars.size());
+
         return cars;
     }
 
@@ -38,9 +40,11 @@ public class CarService {
     }
 
     //Create Car
-    public void createCar(Car car) {
+    public Car createCar(Car car) {
          Car savedCar = carRepository.save(car);
          log.info("Voiture créée avec succès. Identifiant : {}", savedCar.getCarId());
+         return savedCar;
+
     }
 
     //Delete Car

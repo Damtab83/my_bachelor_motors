@@ -1,1 +1,8 @@
-2026-11-14 16:47:19.313 INFO  [restartedMain] o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-11-16 14:06:13.649 INFO  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-11-16 14:06:13.850 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-11-16 14:06:14.147 INFO  [restartedMain] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-11-16 14:06:14.198 INFO  [restartedMain] c.d.m.MyBachelorMotorsApplication - Started MyBachelorMotorsApplication in 27.131 seconds (process running for 3267.643)
+2026-11-16 14:06:14.201 INFO  [restartedMain] c.d.m.MyBachelorMotorsApplication - Message de niveau INFO
+2026-11-16 14:06:14.202 WARN  [restartedMain] c.d.m.MyBachelorMotorsApplication - Message de niveau WARN
+2026-11-16 14:06:14.202 ERROR [restartedMain] c.d.m.MyBachelorMotorsApplication - Message de niveau ERROR
+2026-11-16 14:06:14.211 INFO  [restartedMain] o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
