@@ -74,6 +74,11 @@ public class ImageCarController {
             @PathVariable Long carId
     ) throws IOException {
 
+        log.info("========== UPLOAD IMAGE ==========");
+        log.info("Car ID : {}", carId);
+        log.info("Nom du fichier : {}", file.getOriginalFilename());
+        log.info("Taille : {}", file.getSize());
+
         ImageCar image = imageCarService.saveImage(file, carId);
         log.info("Upload de l'image terminé");
 

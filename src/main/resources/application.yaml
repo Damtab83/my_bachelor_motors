@@ -9,6 +9,14 @@ spring:
     #username: damtab_mmotors
     password: ${DB_PASSWORD}
     #password: DamienM_Motors1BDD
+
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 1
+      max-lifetime: 800000
+      connection-timeout: 30000
+      validation-timeout: 5000
+      idle-timeout: 600000
   jpa:
     hibernate:
       ddl-auto: update
@@ -33,10 +41,11 @@ logging:
     com:
       damtab:
         my_bachelor_motors: DEBUG
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
     org:
       hibernate: error
       springframework:
         security: INFO
-        web: debug
+        #web: debug
   file:
     name: ./logs/my-app-logs.log
