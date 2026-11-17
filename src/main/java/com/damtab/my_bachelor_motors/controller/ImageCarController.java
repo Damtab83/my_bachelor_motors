@@ -6,6 +6,7 @@ import com.damtab.my_bachelor_motors.dto.response.ImageCarResponseDto;
 import com.damtab.my_bachelor_motors.entity.Car;
 import com.damtab.my_bachelor_motors.entity.ImageCar;
 import com.damtab.my_bachelor_motors.service.ImageCarService;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,16 @@ import java.util.List;
 @RestController
 @RequestMapping(ApiRegistration.REST_API + ApiRegistration.REST_IMAGE_CAR)
 public class ImageCarController {
+
+    @PostConstruct
+    public void init() {
+        log.info("==================================");
+        log.info("IMAGE CAR CONTROLLER INITIALIZED");
+        log.info("==================================");
+    }
+
+
+
 
     private static final Logger log =
             LoggerFactory.getLogger(ImageCarController.class);
