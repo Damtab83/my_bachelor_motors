@@ -1,5 +1,7 @@
 package com.damtab.my_bachelor_motors.serviceTest;
 
+import com.damtab.my_bachelor_motors.dto.request.OrderCarRequestDto;
+import com.damtab.my_bachelor_motors.dto.response.OrderCarResponseDto;
 import com.damtab.my_bachelor_motors.entity.Car;
 import com.damtab.my_bachelor_motors.entity.OfferType;
 import com.damtab.my_bachelor_motors.entity.OrderCar;
@@ -21,7 +23,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-public class OrderServiceTest {
+public class OrderCarServiceTest {
 
     @Mock
     private OrderCarRepository orderRepository;
@@ -77,25 +79,25 @@ public class OrderServiceTest {
 
         Mockito.when(orderRepository.findAll()).thenReturn(myListOrder);
 
-        List<OrderCar> result = orderService.getAllOrders();
+        List<OrderCarResponseDto> result = orderService.getAllOrders();
         assertNotNull(result);
         assertEquals(2, result.size());
-        assertEquals(44L, result.get(0).getId());
-        assertEquals(OfferType.BUY, result.get(0).getOfferType());
-        assertEquals("FIAT", result.get(0).getCar().getBrand());
-        assertEquals(55L, result.get(1).getId());
-        assertEquals(OfferType.RENT, result.get(1).getOfferType());
-        assertEquals("BMW", result.get(1).getCar().getBrand());
+        assertEquals(44L, result.get(0).id());
+        assertEquals(OfferType.BUY, result.get(0).offerType());
+        assertEquals("FIAT", result.get(0).car().brand());
+        assertEquals(55L, result.get(1).id());
+        assertEquals(OfferType.RENT, result.get(1).offerType());
+        assertEquals("BMW", result.get(1).car().brand());
     }
 
     @Test
     public void getOrderById_shouldReturnOrder() throws Exception {
         Mockito.when(orderRepository.findById(55L)).thenReturn(Optional.of(order2));
-        OrderCar result = orderService.getOrderById(55L);
+        OrderCarResponseDto result = orderService.getOrderById(55L);
         assertNotNull(result);
-        assertEquals(55L, result.getId());
-        assertEquals(OfferType.RENT, result.getOfferType());
-        assertEquals("BMW", result.getCar().getBrand());
+        assertEquals(55L, result.id());
+        assertEquals(OfferType.RENT, result.offerType());
+        assertEquals("BMW", result.car().brand());
     }
 
     @Test
@@ -111,44 +113,61 @@ public class OrderServiceTest {
 
     @Test
     public void createOrder_shouldReturn201_WhenOrderCreated() throws Exception {
-        orderService.createOrder(order1);
-        Mockito.verify(orderRepository).save(order1);
+        OrderCarRequestDto request = new OrderCarRequestDto(
+                10L,
+                1L,
+                OfferType.BUY,
+                null,
+                false
+        );
+
+        OrderCarResponseDto result = orderService.createOrder(request);
     }
 
     @Test
     public void deleteOrderById_shouldDeleteOrder_whenOrderExist() throws Exception {
-        Mockito.when(orderRepository.existsById(55L)).thenReturn(true);
-        Boolean result = orderService.deleteOrder(55L);
-        assertTrue(result);
-        Mockito.verify(orderRepository).deleteById(55L);
+        Mockito.when(orderRepository.findById(55L))
+                .thenReturn(Optional.of(order1));
+
+        orderService.deleteOrder(55L);
+
+        Mockito.verify(orderRepository).delete(order1);
     }
 
     @Test
     public void deleteOrderById_shouldNotDeleteOrder_whenOrderNotExist() throws Exception {
-        Mockito.when(orderRepository.existsById(99L)).thenReturn(false);
-        Boolean result = orderService.deleteOrder(99L);
-        assertFalse(result);
-        Mockito.verify(orderRepository, Mockito.never()).deleteById(99L);
+        Mockito.when(orderRepository.findById(99L))
+                .thenReturn(Optional.empty());
+
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> orderService.deleteOrder(99L)
+        );
+
     }
 
     @Test
     public void updatedOrderById_shouldModifyOrder_whenOrderExist() throws Exception {
-        OrderCar newOrder = new OrderCar();
-        newOrder.setOfferType(OfferType.RENT);
-        newOrder.setCar(carTest1);
+        OrderCarRequestDto request = new OrderCarRequestDto(
+                10L,
+                1L,
+                OfferType.BUY,
+                null,
+                false
+        );
 
-        Mockito.when(orderRepository.findById(44L)).thenReturn(Optional.of(order1));
+        Mockito.when(orderRepository.findById(55L))
+                .thenReturn(Optional.of(order1));
 
-        orderService.updateOrder(44L, newOrder);
+        Mockito.when(orderRepository.save(Mockito.any(OrderCar.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
 
-        assertEquals(44L, order1.getId());
-        assertEquals(OfferType.RENT, order1.getOfferType());
-        assertNotNull(order1.getCar());
-        assertEquals(10L, order1.getCar().getCarId());
-        assertEquals("FIAT", order1.getCar().getBrand());
+        OrderCarResponseDto result = orderService.updateOrder(55L, request);
 
-        Mockito.verify(orderRepository).findById(44L);
+        assertNotNull(result);
+
         Mockito.verify(orderRepository).save(order1);
+
     }
 
 }

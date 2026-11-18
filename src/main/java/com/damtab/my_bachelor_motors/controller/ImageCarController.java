@@ -7,6 +7,7 @@ import com.damtab.my_bachelor_motors.entity.Car;
 import com.damtab.my_bachelor_motors.entity.ImageCar;
 import com.damtab.my_bachelor_motors.service.ImageCarService;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(ApiRegistration.REST_API + ApiRegistration.REST_IMAGE_CAR)
+@RequiredArgsConstructor
 public class ImageCarController {
 
     @PostConstruct
@@ -37,10 +39,8 @@ public class ImageCarController {
             LoggerFactory.getLogger(ImageCarController.class);
 
     //Differents routing for...
-    @Autowired
-    private ImageCarService imageCarService;
-    @Autowired
-    private ImageCarMapper imageCarMapper;
+    private final ImageCarService imageCarService;
+    private final ImageCarMapper imageCarMapper;
 
     public ImageCarController(ImageCarService imageCarService, ImageCarMapper imageCarMapper) {
         this.imageCarService = imageCarService;

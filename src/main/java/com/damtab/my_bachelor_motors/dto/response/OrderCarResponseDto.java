@@ -1,13 +1,14 @@
 package com.damtab.my_bachelor_motors.dto.response;
 
+import com.damtab.my_bachelor_motors.dto.LoginUserResponse;
 import com.damtab.my_bachelor_motors.entity.OfferType;
 
 public record OrderCarResponseDto(
         Long id,
-        Long carId,
+        CarResponseDto car,
         Long userId,
         OfferType offerType,
-        Long oldCarId,
+        OldCarResponseDto oldCar,
         boolean subscriptionInsurance
 ) {
 }

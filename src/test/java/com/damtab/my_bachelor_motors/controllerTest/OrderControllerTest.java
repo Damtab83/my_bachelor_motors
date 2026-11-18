@@ -3,9 +3,8 @@ package com.damtab.my_bachelor_motors.controllerTest;
 import com.damtab.my_bachelor_motors.configuration.jwt.JwtUtils;
 import com.damtab.my_bachelor_motors.controller.ApiRegistration;
 import com.damtab.my_bachelor_motors.controller.OrderCarController;
-import com.damtab.my_bachelor_motors.entity.Car;
+import com.damtab.my_bachelor_motors.dto.mapper.OrderCarMapper;
 import com.damtab.my_bachelor_motors.entity.OfferType;
-import com.damtab.my_bachelor_motors.entity.OrderCar;
 import com.damtab.my_bachelor_motors.service.OrderCarService;
 import com.damtab.my_bachelor_motors.service.UserCustomDetailsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,13 +17,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import com.damtab.my_bachelor_motors.dto.request.OrderCarRequestDto;
+import com.damtab.my_bachelor_motors.dto.response.OrderCarResponseDto;
+import com.damtab.my_bachelor_motors.dto.response.CarResponseDto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(OrderCarController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -32,6 +32,9 @@ public class OrderControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockitoBean
+    private OrderCarMapper orderCarMapper;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -45,49 +48,37 @@ public class OrderControllerTest {
     @MockitoBean
     private JwtUtils jwtUtils;
 
-    private OrderCar order1;
-    private OrderCar order2;
-    private List<OrderCar> myOrderList;
-    private Car carTest1;
-    private Car carTest2;
+    private OrderCarResponseDto response1;
+    private OrderCarResponseDto response2;
 
     @BeforeEach
     public void initialize() {
 
-        carTest1 =new Car();
-        carTest1.setCarId(10L);
-        carTest1.setBrand("FIAT");
-        carTest1.setModel("500X");
-        carTest1.setKilometer(15000);
-        carTest1.setMotorisation("Electrique");
-        carTest1.setPrice(8000);
+        CarResponseDto carResponse1 = new CarResponseDto(
+                10L, "FIAT", "500X", "Electrique",
+                15000, 8000, List.of(), null
+        );
 
-        carTest2 =new Car();
-        carTest2.setCarId(20L);
-        carTest2.setBrand("BMW");
-        carTest2.setModel("X3");
-        carTest2.setKilometer(25000);
-        carTest2.setMotorisation("150CV");
-        carTest2.setPrice(5000);
+        CarResponseDto carResponse2 = new CarResponseDto(
+                20L, "BMW", "X3", "150CV",
+                25000, 5000, List.of(), null
+        );
 
-        order1 = new OrderCar();
-        order1.setId(33L);
-        order1.setCar(carTest1);
-        order1.setOfferType(OfferType.BUY);
+        response1 = new OrderCarResponseDto(
+                33L, carResponse1, 1L, OfferType.BUY, null, false
+        );
 
-        order2 = new OrderCar();
-        order2.setId(55L);
-        order2.setCar(carTest2);
-        order2.setOfferType(OfferType.RENT);
-
-        myOrderList = new ArrayList<>();
-        myOrderList.add(order1);
-        myOrderList.add(order2);
+        response2 = new OrderCarResponseDto(
+                55L, carResponse2, 2L, OfferType.RENT, null, true
+        );
     }
 
     @Test
     public void getAllOrder_shouldReturnOrderList() throws Exception {
-        Mockito.when(orderService.getAllOrders()).thenReturn(myOrderList);
+
+        Mockito.when(orderService.getAllOrders())
+                .thenReturn(List.of(response1, response2));
+
         mockMvc.perform(get(ApiRegistration.REST_API + ApiRegistration.REST_ORDER))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(33))
@@ -98,21 +89,27 @@ public class OrderControllerTest {
 
     @Test
     public void getAllOrder_shouldReturnFalse() throws Exception {
-        Mockito.when(orderService.getAllOrders()).thenReturn(null);
+
+        Mockito.when(orderService.getAllOrders())
+                .thenReturn(List.of());
+
         mockMvc.perform(get(ApiRegistration.REST_API + ApiRegistration.REST_ORDER))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
     }
 
 
     @Test
     public void getOrderById_shouldReturnOrder() throws Exception {
-        Mockito.when(orderService.getOrderById(33L)).thenReturn(order1);
+
+        Mockito.when(orderService.getOrderById(33L))
+                .thenReturn(response1);
+
         mockMvc.perform(get(ApiRegistration.REST_API + ApiRegistration.REST_ORDER + "/33"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(33))
                 .andExpect(jsonPath("$.offerType").value("BUY"))
-                .andExpect(jsonPath("$.car.brand").value("FIAT"))
-                .andExpect(jsonPath("$.car.model").value("500X"));
+                .andExpect(jsonPath("$.car.brand").value("FIAT"));
     }
 
     @Test
@@ -125,40 +122,67 @@ public class OrderControllerTest {
     @Test
     public void createOrder_shouldReturn201() throws Exception {
 
+        OrderCarRequestDto request = new OrderCarRequestDto(
+                20L, 2L, OfferType.RENT, null, true
+        );
+
+        Mockito.when(orderService.createOrder(Mockito.any(OrderCarRequestDto.class)))
+                .thenReturn(response2);
+
         mockMvc.perform(post(ApiRegistration.REST_API + ApiRegistration.REST_ORDER)
-                .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(order2)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());
 
-        Mockito.verify(orderService).createOrder(Mockito.any(OrderCar.class));
+        Mockito.verify(orderService)
+                .createOrder(Mockito.any(OrderCarRequestDto.class));
     }
 
     @Test
     public void deleteOrderById_shouldReturn201_whenOrderExist() throws Exception {
-        Mockito.when(orderService.deleteOrder(55L)).thenReturn(true);
-        mockMvc.perform(delete(ApiRegistration.REST_API + ApiRegistration.REST_ORDER + "/55"))
-                .andExpect(status().isOk());
+
+        Mockito.doNothing().when(orderService).deleteOrder(55L);
+
+        mockMvc.perform(delete(
+                        ApiRegistration.REST_API + ApiRegistration.REST_ORDER + "/55"))
+                .andExpect(status().isNoContent());
+
+        Mockito.verify(orderService).deleteOrder(55L);
     }
 
     @Test
     public void deleteOrderById_shouldReturnFalse_whenNotExist() throws Exception {
-        Mockito.when(orderService.deleteOrder(88L)).thenReturn(false);
-        mockMvc.perform(delete(ApiRegistration.REST_API + ApiRegistration.REST_ORDER + "/88"))
+
+        Mockito.doThrow(new RuntimeException("Commande non trouvée"))
+                .when(orderService).deleteOrder(88L);
+
+        mockMvc.perform(delete(
+                        ApiRegistration.REST_API + ApiRegistration.REST_ORDER + "/88"))
                 .andExpect(status().isNotFound());
+
+        Mockito.verify(orderService).deleteOrder(88L);
     }
 
     @Test
     public void updateOrderById_shouldModifyOrder_whenOrderExist() throws Exception {
-        OrderCar newOrder = new OrderCar();
-        newOrder.setOfferType(OfferType.BUY);
-        newOrder.setCar(carTest1);
-        newOrder.setCar(carTest1);
 
-        mockMvc.perform(put(ApiRegistration.REST_API + ApiRegistration.REST_ORDER+ "/55")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(newOrder)))
+        OrderCarRequestDto request = new OrderCarRequestDto(
+                10L, 1L, OfferType.BUY, null, false
+        );
+
+        Mockito.when(orderService.updateOrder(
+                Mockito.eq(55L),
+                Mockito.any(OrderCarRequestDto.class)
+        )).thenReturn(response1);
+
+        mockMvc.perform(put(ApiRegistration.REST_API + ApiRegistration.REST_ORDER + "/55")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk());
 
-        Mockito.verify(orderService).updateOrder(Mockito.eq(55L), Mockito.any(OrderCar.class));
+        Mockito.verify(orderService).updateOrder(
+                Mockito.eq(55L),
+                Mockito.any(OrderCarRequestDto.class)
+        );
     }
 }

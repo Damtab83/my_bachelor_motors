@@ -4,4 +4,5 @@ import com.damtab.my_bachelor_motors.entity.OrderCar;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OrderCarRepository extends JpaRepository<OrderCar, Long> {
+
 }

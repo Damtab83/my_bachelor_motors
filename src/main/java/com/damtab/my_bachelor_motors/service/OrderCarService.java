@@ -1,5 +1,8 @@
 package com.damtab.my_bachelor_motors.service;
 
+import com.damtab.my_bachelor_motors.dto.mapper.OrderCarMapper;
+import com.damtab.my_bachelor_motors.dto.request.OrderCarRequestDto;
+import com.damtab.my_bachelor_motors.dto.response.OrderCarResponseDto;
 import com.damtab.my_bachelor_motors.entity.OrderCar;
 import com.damtab.my_bachelor_motors.exception.ResourceNotFoundException;
 import com.damtab.my_bachelor_motors.repository.OrderCarRepository;
@@ -7,68 +10,82 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class OrderCarService {
 
     private static final Logger log =
             LoggerFactory.getLogger(OrderCarService.class);
 
     //CRud for OrderCar for change Rent to Buy or Buy to Rent
-    private final OrderCarRepository orderRepository;
+    private final OrderCarRepository orderCarRepository;
+    private final OrderCarMapper orderCarMapper;
 
     //Get List of OrderCar
-    public List<OrderCar> getAllOrders() {
-        List<OrderCar> orders = orderRepository.findAll();
-        log.debug("Nombre de commandes récupérées : {}", orders.size());
-        if(orders.isEmpty()) {
-            throw new ResourceNotFoundException("Aucunes commande trouvée");
-        }
-        return orders;
+    public List<OrderCarResponseDto> getAllOrders() {
+        log.debug("Nombre de commandes récupérées ");
+        return orderCarRepository.findAll()
+                .stream()
+                .map(orderCarMapper::toResponseDto)
+                .toList();
+
     }
 
     //Get OrderCar By Id
-    public OrderCar getOrderById(Long id) {
-        return orderRepository.findById(id)
+    public OrderCarResponseDto getOrderById(Long id) {
+        OrderCar orderCar = orderCarRepository.findById(id)
                 .orElseThrow(() -> {
                     log.warn("Aucune voiture trouvée avec l'identifiant : {}", id);
                     return new ResourceNotFoundException("Aucune commande trouvée");
                 });
+
+        return orderCarMapper.toResponseDto(orderCar);
     }
 
     //Create OrderCar
-    public OrderCar createOrder(OrderCar newOrder) {
+    @Transactional
+    public OrderCarResponseDto createOrder(OrderCarRequestDto dto) {
+        OrderCar orderCar = orderCarMapper.toEntity(dto);
 
-        OrderCar savedOrder = orderRepository.save(newOrder);
+        OrderCar savedOrder = orderCarRepository.save(orderCar);
         log.info("Commande créée avec succès. Identifiant : {}", savedOrder.getId());
-        return savedOrder;
+        return orderCarMapper.toResponseDto(savedOrder);
     }
 
     //Delete OrderCar
-    public boolean deleteOrder(Long id) {
-        boolean toDelete = orderRepository.existsById(id);
-        if (toDelete) {
-            orderRepository.deleteById(id);
-            log.info("Commande supprimée avec succès. Identifiant : {}", id);
-        }
-        return toDelete;
+    @Transactional
+    public void deleteOrder(Long id) {
+        OrderCar orderCar = orderCarRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Commande non trouvée"));
+        log.info("Commande supprimée avec succès. Identifiant : {}", id);
+        orderCarRepository.delete(orderCar);
+
     }
 
     //Update OrderCar for change Buy to Rent and inverse
-    public OrderCar updateOrder(Long id, OrderCar newOrder) {
-        OrderCar oldOrder = this.getOrderById(id);
-        if(oldOrder != null) {
-            oldOrder.setCar(newOrder.getCar());
-            oldOrder.setOfferType(newOrder.getOfferType());
-            oldOrder.setTradeOldCar(newOrder.getTradeOldCar());
-            oldOrder.setSubscriptionInsurance(newOrder.isSubscriptionInsurance());
+    public OrderCarResponseDto updateOrder(Long id, OrderCarRequestDto dto) {
+        OrderCar existingOrder = orderCarRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Commande non trouvée"));
 
-            orderRepository.save(oldOrder);
-            log.info("Commande modifiée avec succès. Identifiant : {}", id);
-        }
-        return oldOrder;
+        OrderCar updatedOrder = orderCarMapper.toEntity(dto);
+
+        existingOrder.setCar(updatedOrder.getCar());
+        existingOrder.setUser(updatedOrder.getUser());
+        existingOrder.setOfferType(updatedOrder.getOfferType());
+        existingOrder.setTradeOldCar(updatedOrder.getTradeOldCar());
+        existingOrder.setSubscriptionInsurance(
+                updatedOrder.isSubscriptionInsurance()
+        );
+
+        OrderCar savedOrder = orderCarRepository.save(existingOrder);
+
+        return orderCarMapper.toResponseDto(savedOrder);
     }
 }

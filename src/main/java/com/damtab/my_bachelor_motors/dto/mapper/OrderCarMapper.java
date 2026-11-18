@@ -14,12 +14,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class OrderCarMapper {
 
-    @Autowired
-    private CarRepository carRepository;
-    @Autowired
-    private UserCustomRepository userCustomRepository;
-    @Autowired
-    private OldCarRepository oldCarRepository;
+    private final CarRepository carRepository;
+    private final UserCustomRepository userCustomRepository;
+    private final OldCarRepository oldCarRepository;
+    private final CarMapper carMapper;
+    private final UserCustomMapper userCustomMapper;
+    private final OldCarMapper oldCarMapper;
 
     public OrderCar toEntity(OrderCarRequestDto dto) {
         OrderCar orderCar = new OrderCar();
@@ -50,10 +50,12 @@ public class OrderCarMapper {
     public OrderCarResponseDto toResponseDto(OrderCar orderCar) {
         return new OrderCarResponseDto(
                 orderCar.getId(),
-                orderCar.getCar() != null ? orderCar.getCar().getCarId() : null,
-                orderCar.getUser() != null ? orderCar.getUser().getId() : null,
+                orderCar.getCar() != null ? carMapper.toResponseDto(orderCar.getCar()) : null,
+                orderCar.getUser() != null
+                        ? userCustomMapper.toResponseDto(orderCar.getUser()).id() : null,
                 orderCar.getOfferType(),
-                orderCar.getTradeOldCar() != null ? orderCar.getTradeOldCar().getOldCarId() : null,
+                orderCar.getTradeOldCar() != null
+                        ? oldCarMapper.toResponseDto(orderCar.getTradeOldCar()) : null,
                 orderCar.isSubscriptionInsurance()
         );
     }
