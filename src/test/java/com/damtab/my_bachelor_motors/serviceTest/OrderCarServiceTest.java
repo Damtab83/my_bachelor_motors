@@ -1,6 +1,8 @@
 package com.damtab.my_bachelor_motors.serviceTest;
 
+import com.damtab.my_bachelor_motors.dto.mapper.OrderCarMapper;
 import com.damtab.my_bachelor_motors.dto.request.OrderCarRequestDto;
+import com.damtab.my_bachelor_motors.dto.response.CarResponseDto;
 import com.damtab.my_bachelor_motors.dto.response.OrderCarResponseDto;
 import com.damtab.my_bachelor_motors.entity.Car;
 import com.damtab.my_bachelor_motors.entity.OfferType;
@@ -27,6 +29,9 @@ public class OrderCarServiceTest {
 
     @Mock
     private OrderCarRepository orderRepository;
+
+    @Mock
+    private OrderCarMapper orderCarMapper;
 
     @InjectMocks
     private OrderCarService orderService;
@@ -74,10 +79,43 @@ public class OrderCarServiceTest {
         myListOrder.add(order2);
     }
 
+
+    // Helper method to create a response DTO
+    private OrderCarResponseDto createResponseDto(OrderCar order) {
+
+        Car car = order.getCar();
+
+        CarResponseDto carDto = new CarResponseDto(
+                car.getCarId(),
+                car.getBrand(),
+                car.getModel(),
+                car.getMotorisation(),
+                car.getKilometer(),
+                car.getPrice(),
+                null,
+                null
+        );
+
+        return new OrderCarResponseDto(
+                order.getId(),
+                carDto,
+                null,
+                order.getOfferType(),
+                null,
+                order.isSubscriptionInsurance()
+        );
+    }
+
     @Test
     public void getAllOrder_shouldReturnList() throws Exception {
 
         Mockito.when(orderRepository.findAll()).thenReturn(myListOrder);
+
+        Mockito.when(orderCarMapper.toResponseDto(order1))
+                .thenReturn(createResponseDto(order1));
+
+        Mockito.when(orderCarMapper.toResponseDto(order2))
+                .thenReturn(createResponseDto(order2));
 
         List<OrderCarResponseDto> result = orderService.getAllOrders();
         assertNotNull(result);
@@ -92,12 +130,23 @@ public class OrderCarServiceTest {
 
     @Test
     public void getOrderById_shouldReturnOrder() throws Exception {
-        Mockito.when(orderRepository.findById(55L)).thenReturn(Optional.of(order2));
+        Mockito.when(orderRepository.findById(55L))
+                .thenReturn(Optional.of(order2));
+
+        OrderCarResponseDto expectedDto = createResponseDto(order2);
+
+        Mockito.when(orderCarMapper.toResponseDto(order2))
+                .thenReturn(expectedDto);
+
         OrderCarResponseDto result = orderService.getOrderById(55L);
+
         assertNotNull(result);
         assertEquals(55L, result.id());
         assertEquals(OfferType.RENT, result.offerType());
         assertEquals("BMW", result.car().brand());
+
+        Mockito.verify(orderRepository).findById(55L);
+        Mockito.verify(orderCarMapper).toResponseDto(order2);
     }
 
     @Test
@@ -121,7 +170,22 @@ public class OrderCarServiceTest {
                 false
         );
 
+        Mockito.when(orderCarMapper.toEntity(request))
+                .thenReturn(order1);
+
+        Mockito.when(orderRepository.save(order1))
+                .thenReturn(order1);
+
+        Mockito.when(orderCarMapper.toResponseDto(order1))
+                .thenReturn(createResponseDto(order1));
+
         OrderCarResponseDto result = orderService.createOrder(request);
+
+        assertNotNull(result);
+        assertEquals(44L, result.id());
+        assertEquals(OfferType.BUY, result.offerType());
+
+        Mockito.verify(orderRepository).save(order1);
     }
 
     @Test
@@ -144,6 +208,9 @@ public class OrderCarServiceTest {
                 () -> orderService.deleteOrder(99L)
         );
 
+        Mockito.verify(orderRepository, Mockito.never())
+                .delete(Mockito.any(OrderCar.class));
+
     }
 
     @Test
@@ -159,12 +226,20 @@ public class OrderCarServiceTest {
         Mockito.when(orderRepository.findById(55L))
                 .thenReturn(Optional.of(order1));
 
+        Mockito.when(orderCarMapper.toEntity(request))
+                .thenReturn(order2);
+
         Mockito.when(orderRepository.save(Mockito.any(OrderCar.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
+
+        Mockito.when(orderCarMapper.toResponseDto(order1))
+                .thenAnswer(invocation -> createResponseDto(order1));
 
         OrderCarResponseDto result = orderService.updateOrder(55L, request);
 
         assertNotNull(result);
+        assertEquals(44L, result.id());
+        assertEquals(OfferType.RENT, result.offerType());
 
         Mockito.verify(orderRepository).save(order1);
 

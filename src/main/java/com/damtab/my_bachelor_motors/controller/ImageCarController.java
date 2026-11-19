@@ -42,10 +42,6 @@ public class ImageCarController {
     private final ImageCarService imageCarService;
     private final ImageCarMapper imageCarMapper;
 
-    public ImageCarController(ImageCarService imageCarService, ImageCarMapper imageCarMapper) {
-        this.imageCarService = imageCarService;
-        this.imageCarMapper = imageCarMapper;
-    }
 
     //Get List of Image-Car
     @GetMapping

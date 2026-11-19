@@ -62,7 +62,7 @@ public class OrderCarService {
     public void deleteOrder(Long id) {
         OrderCar orderCar = orderCarRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Commande non trouvée"));
+                        new ResourceNotFoundException("Commande non trouvée"));
         log.info("Commande supprimée avec succès. Identifiant : {}", id);
         orderCarRepository.delete(orderCar);
 
@@ -72,7 +72,7 @@ public class OrderCarService {
     public OrderCarResponseDto updateOrder(Long id, OrderCarRequestDto dto) {
         OrderCar existingOrder = orderCarRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Commande non trouvée"));
+                        new ResourceNotFoundException("Commande non trouvée"));
 
         OrderCar updatedOrder = orderCarMapper.toEntity(dto);
 
