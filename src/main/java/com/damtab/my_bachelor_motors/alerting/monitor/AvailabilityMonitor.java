@@ -1,4 +1,4 @@
-package com.damtab.my_bachelor_motors.monitor;
+package com.damtab.my_bachelor_motors.alerting.monitor;
 
 import com.damtab.my_bachelor_motors.service.AlertService;
 import lombok.RequiredArgsConstructor;

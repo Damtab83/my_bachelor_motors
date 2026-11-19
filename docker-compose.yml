@@ -6,6 +6,11 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: motdepasse
       MARIADB_DATABASE: my_bachelor_motors
+      SMTP_HOST: smtp.gmail.com
+      SMTP_PORT: 587
+      SMTP_USERNAME: ${SMTP_USERNAME}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      ALERT_EMAILS: ${ALERT_EMAILS}
     ports:
       - "3307:3306"
     volumes:
