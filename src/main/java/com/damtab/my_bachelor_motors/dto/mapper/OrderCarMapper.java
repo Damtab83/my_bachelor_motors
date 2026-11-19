@@ -3,6 +3,7 @@ package com.damtab.my_bachelor_motors.dto.mapper;
 import com.damtab.my_bachelor_motors.dto.request.OrderCarRequestDto;
 import com.damtab.my_bachelor_motors.dto.response.OrderCarResponseDto;
 import com.damtab.my_bachelor_motors.entity.OrderCar;
+import com.damtab.my_bachelor_motors.exception.ResourceNotFoundException;
 import com.damtab.my_bachelor_motors.repository.CarRepository;
 import com.damtab.my_bachelor_motors.repository.OldCarRepository;
 import com.damtab.my_bachelor_motors.repository.UserCustomRepository;
@@ -26,18 +27,18 @@ public class OrderCarMapper {
 
         orderCar.setCar(
                 carRepository.findById(dto.carId())
-                        .orElseThrow(() -> new RuntimeException("Voiture non trouvée"))
+                        .orElseThrow(() -> new ResourceNotFoundException("Voiture non trouvée"))
         );
         orderCar.setUser(
                 userCustomRepository.findById(dto.userId())
-                        .orElseThrow(() -> new RuntimeException("Client non trouvé"))
+                        .orElseThrow(() -> new ResourceNotFoundException("Client non trouvé"))
         );
         orderCar.setOfferType(dto.offerType());
 
         if(dto.oldCarId() != null) {
             orderCar.setTradeOldCar(
                     oldCarRepository.findById(dto.oldCarId())
-                            .orElseThrow(()-> new RuntimeException("aucune ancienne voiture"))
+                            .orElseThrow(()-> new ResourceNotFoundException("aucune ancienne voiture"))
             );
         }
 

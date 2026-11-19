@@ -52,11 +52,10 @@ logging:
       max-history: 30
       total-size-cap: 1GB
   level:
-    root: TRACE
+    root: INFO
     com:
       damtab:
-        my_bachelor_motors: TRACE
-    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
+        my_bachelor_motors: INFO
     org:
       hibernate: error
       springframework:

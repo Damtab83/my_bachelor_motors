@@ -1,7 +1,9 @@
 package com.damtab.my_bachelor_motors.service;
 
+import com.damtab.my_bachelor_motors.dto.mapper.CarMapper;
 import com.damtab.my_bachelor_motors.dto.mapper.OrderCarMapper;
 import com.damtab.my_bachelor_motors.dto.request.OrderCarRequestDto;
+import com.damtab.my_bachelor_motors.dto.response.CarResponseDto;
 import com.damtab.my_bachelor_motors.dto.response.OrderCarResponseDto;
 import com.damtab.my_bachelor_motors.entity.OrderCar;
 import com.damtab.my_bachelor_motors.exception.ResourceNotFoundException;
@@ -25,6 +27,7 @@ public class OrderCarService {
     //CRud for OrderCar for change Rent to Buy or Buy to Rent
     private final OrderCarRepository orderCarRepository;
     private final OrderCarMapper orderCarMapper;
+    private final CarMapper carMapper;
 
     //Get List of OrderCar
     public List<OrderCarResponseDto> getAllOrders() {
@@ -50,10 +53,41 @@ public class OrderCarService {
     //Create OrderCar
     @Transactional
     public OrderCarResponseDto createOrder(OrderCarRequestDto dto) {
+//        OrderCar orderCar = orderCarMapper.toEntity(dto);
+//
+//        OrderCar savedOrder = orderCarRepository.save(orderCar);
+//        log.info("Commande créée avec succès. Identifiant : {}", savedOrder.getId());
+//        return orderCarMapper.toResponseDto(savedOrder);
+        log.info("Car ID reçu : {}", dto.carId());
+        log.info("User ID reçu : {}", dto.userId());
+
         OrderCar orderCar = orderCarMapper.toEntity(dto);
 
+        // Vérification des associations avant sauvegarde
+        log.info("Car avant save : {}",
+                orderCar.getCar() != null
+                        ? orderCar.getCar().getCarId() : null);
+
+        log.info("User avant save : {}",
+                orderCar.getUser() != null
+                        ? orderCar.getUser().getId() : null);
+
         OrderCar savedOrder = orderCarRepository.save(orderCar);
-        log.info("Commande créée avec succès. Identifiant : {}", savedOrder.getId());
+
+        // Vérification après sauvegarde
+        log.info("Car après save : {}",
+                savedOrder.getCar() != null
+                        ? savedOrder.getCar().getCarId() : null);
+
+        log.info("User après save : {}",
+                savedOrder.getUser() != null
+                        ? savedOrder.getUser().getId() : null);
+
+        // Vérification des DTO
+        CarResponseDto carDto = carMapper.toResponseDto(savedOrder.getCar());
+
+        log.info("Car DTO : {}", carDto);
+
         return orderCarMapper.toResponseDto(savedOrder);
     }
 
