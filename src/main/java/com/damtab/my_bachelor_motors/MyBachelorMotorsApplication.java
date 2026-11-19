@@ -5,8 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @SpringBootApplication
+@ConfigurationPropertiesScan
 public class MyBachelorMotorsApplication implements CommandLineRunner {
 
 	public final static Logger logger = LoggerFactory.getLogger(MyBachelorMotorsApplication.class);
