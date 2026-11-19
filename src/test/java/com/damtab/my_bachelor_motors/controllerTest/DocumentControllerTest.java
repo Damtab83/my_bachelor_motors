@@ -1,6 +1,8 @@
 package com.damtab.my_bachelor_motors.controllerTest;
 
 import com.damtab.my_bachelor_motors.configuration.jwt.JwtUtils;
+import com.damtab.my_bachelor_motors.controller.DocumentController;
+import com.damtab.my_bachelor_motors.dto.mapper.DocumentMapper;
 import com.damtab.my_bachelor_motors.entity.Document;
 import com.damtab.my_bachelor_motors.service.DocumentService;
 import com.damtab.my_bachelor_motors.service.UserCustomDetailsService;
@@ -21,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@WebMvcTest(Document.class)
+@WebMvcTest(DocumentController.class)
 @AutoConfigureMockMvc(addFilters = false)
 public class DocumentControllerTest {
 
@@ -39,6 +41,9 @@ public class DocumentControllerTest {
 
     @MockitoBean
     private DocumentService documentService;
+
+    @MockitoBean
+    private DocumentMapper documentMapper;
 
 
 
@@ -65,7 +70,7 @@ public class DocumentControllerTest {
                         multipart("/api/document/upload")
                                 .file(file)
                 )
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
 
         Mockito.verify(documentService)
                 .uploadFile(any());
