@@ -8,7 +8,7 @@ import java.util.List;
 public record AlertingProperties(
         boolean enabled,
         String from,
-        List<String> recipients,
+        String recipients,
         String applicationName,
         int cooldownMinutes
 ) {

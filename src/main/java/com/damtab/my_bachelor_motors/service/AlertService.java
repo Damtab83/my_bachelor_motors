@@ -47,7 +47,7 @@ public class AlertService {
             email.setFrom(alertingProperties.from());
 
             email.setTo(
-                    alertingProperties.recipients().toArray(new String[0])
+                    alertingProperties.recipients().split("\\s*,\\s*")
             );
 
             email.setSubject(

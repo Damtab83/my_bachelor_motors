@@ -66,7 +66,7 @@ logging:
 
 alerting:
   enabled: true
-  from: ${SMTP_USERNAME}
+  from: ${spring.mail.username}
   recipients: ${ALERT_EMAILS}
   application-name: My_Motors_Bachelor
   cooldown-minutes: 10
