@@ -19,7 +19,6 @@ public class OrderCarMapper {
     private final UserCustomRepository userCustomRepository;
     private final OldCarRepository oldCarRepository;
     private final CarMapper carMapper;
-    private final UserCustomMapper userCustomMapper;
     private final OldCarMapper oldCarMapper;
 
     public OrderCar toEntity(OrderCarRequestDto dto) {
@@ -53,7 +52,7 @@ public class OrderCarMapper {
                 orderCar.getId(),
                 orderCar.getCar() != null ? carMapper.toResponseDto(orderCar.getCar()) : null,
                 orderCar.getUser() != null
-                        ? userCustomMapper.toResponseDto(orderCar.getUser()).id() : null,
+                        ? orderCar.getUser().getId() : null,
                 orderCar.getOfferType(),
                 orderCar.getTradeOldCar() != null
                         ? oldCarMapper.toResponseDto(orderCar.getTradeOldCar()) : null,
