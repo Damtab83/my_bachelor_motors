@@ -83,10 +83,6 @@ public class OrderCarService {
                 savedOrder.getUser() != null
                         ? savedOrder.getUser().getId() : null);
 
-        // Vérification des DTO
-        CarResponseDto carDto = carMapper.toResponseDto(savedOrder.getCar());
-
-        log.info("Car DTO : {}", carDto);
 
         return orderCarMapper.toResponseDto(savedOrder);
     }
