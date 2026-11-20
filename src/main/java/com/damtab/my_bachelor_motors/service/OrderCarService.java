@@ -27,7 +27,6 @@ public class OrderCarService {
     //CRud for OrderCar for change Rent to Buy or Buy to Rent
     private final OrderCarRepository orderCarRepository;
     private final OrderCarMapper orderCarMapper;
-    private final CarMapper carMapper;
 
     //Get List of OrderCar
     public List<OrderCarResponseDto> getAllOrders() {

@@ -5,10 +5,10 @@ import com.damtab.my_bachelor_motors.entity.OfferType;
 
 public record OrderCarResponseDto(
         Long id,
-        CarResponseDto carId,
+        CarResponseDto car,
         Long userId,
         OfferType offerType,
-        OldCarResponseDto oldCarId,
+        OldCarResponseDto oldCar,
         boolean subscriptionInsurance
 ) {
 }

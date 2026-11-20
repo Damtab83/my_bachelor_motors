@@ -50,9 +50,8 @@ public class OrderCarMapper {
     public OrderCarResponseDto toResponseDto(OrderCar orderCar) {
         return new OrderCarResponseDto(
                 orderCar.getId(),
-                orderCar.getCar() != null ? carMapper.toResponseDto(orderCar.getCar()) : null,
-                orderCar.getUser() != null
-                        ? orderCar.getUser().getId() : null,
+                carMapper.toResponseDto(orderCar.getCar()),
+                orderCar.getUser().getId(),
                 orderCar.getOfferType(),
                 orderCar.getTradeOldCar() != null
                         ? oldCarMapper.toResponseDto(orderCar.getTradeOldCar()) : null,
