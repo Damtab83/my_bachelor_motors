@@ -15,18 +15,18 @@ public class OrderCar {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "car_id", referencedColumnName = "carId")
+    @JoinColumn(name = "car_id")
     private Car car;
 
     @ManyToOne
-    @JoinColumn(name = "user_custom_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_custom_id")
     private UserCustom user;
 
     @Enumerated(value = EnumType.STRING)
     private OfferType offerType;
 
     @OneToOne(optional = true)
-    @JoinColumn(name = "old_car_id", referencedColumnName = "oldCarId")
+    @JoinColumn(name = "old_car_id")
     private OldCar oldCar;
     private boolean subscriptionInsurance;
 }
