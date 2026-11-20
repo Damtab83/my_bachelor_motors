@@ -32,7 +32,7 @@ Default logback configuration provided for import
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
                 <!-- Nom des fichiers archivés -->
                 <fileNamePattern>
-                    ./src/main/resources/static/logs/archive/my-app-%d{yyyy-MM-dd}.%i.log
+                    ./logs/archive/my-app-%d{yyyy-MM-dd}.%i.log
                 </fileNamePattern>
                 <!-- Taille maximale par fichier -->
                 <maxFileSize>1KB</maxFileSize>
