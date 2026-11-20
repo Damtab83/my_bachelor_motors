@@ -1,9 +1,7 @@
 package com.damtab.my_bachelor_motors.service;
 
-import com.damtab.my_bachelor_motors.dto.mapper.CarMapper;
 import com.damtab.my_bachelor_motors.dto.mapper.OrderCarMapper;
 import com.damtab.my_bachelor_motors.dto.request.OrderCarRequestDto;
-import com.damtab.my_bachelor_motors.dto.response.CarResponseDto;
 import com.damtab.my_bachelor_motors.dto.response.OrderCarResponseDto;
 import com.damtab.my_bachelor_motors.entity.OrderCar;
 import com.damtab.my_bachelor_motors.exception.ResourceNotFoundException;
@@ -108,7 +106,7 @@ public class OrderCarService {
         existingOrder.setCar(updatedOrder.getCar());
         existingOrder.setUser(updatedOrder.getUser());
         existingOrder.setOfferType(updatedOrder.getOfferType());
-        existingOrder.setTradeOldCar(updatedOrder.getTradeOldCar());
+        existingOrder.setOldCar(updatedOrder.getOldCar());
         existingOrder.setSubscriptionInsurance(
                 updatedOrder.isSubscriptionInsurance()
         );

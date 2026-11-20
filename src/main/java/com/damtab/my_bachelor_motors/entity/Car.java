@@ -16,6 +16,7 @@ import java.util.List;
 public class Car {
 
     @Id
+    @Column(name = "car_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long carId;
     @Size(min = 3, max = 20)

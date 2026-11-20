@@ -8,7 +8,6 @@ import com.damtab.my_bachelor_motors.repository.CarRepository;
 import com.damtab.my_bachelor_motors.repository.OldCarRepository;
 import com.damtab.my_bachelor_motors.repository.UserCustomRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -35,7 +34,7 @@ public class OrderCarMapper {
         orderCar.setOfferType(dto.offerType());
 
         if(dto.oldCarId() != null) {
-            orderCar.setTradeOldCar(
+            orderCar.setOldCar(
                     oldCarRepository.findById(dto.oldCarId())
                             .orElseThrow(()-> new ResourceNotFoundException("aucune ancienne voiture"))
             );
@@ -53,8 +52,8 @@ public class OrderCarMapper {
                 carMapper.toResponseDto(orderCar.getCar()),
                 orderCar.getUser().getId(),
                 orderCar.getOfferType(),
-                orderCar.getTradeOldCar() != null
-                        ? oldCarMapper.toResponseDto(orderCar.getTradeOldCar()) : null,
+                orderCar.getOldCar() != null
+                        ? oldCarMapper.toResponseDto(orderCar.getOldCar()) : null,
                 orderCar.isSubscriptionInsurance()
         );
     }

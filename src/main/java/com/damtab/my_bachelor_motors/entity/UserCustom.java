@@ -16,6 +16,7 @@
     public class UserCustom {
 
         @Id
+        @Column(name = "id")
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 

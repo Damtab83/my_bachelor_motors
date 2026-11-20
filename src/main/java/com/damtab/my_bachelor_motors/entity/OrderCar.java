@@ -15,7 +15,7 @@ public class OrderCar {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "carId", referencedColumnName = "carId")
+    @JoinColumn(name = "car_id", referencedColumnName = "carId")
     private Car car;
 
     @ManyToOne
@@ -26,7 +26,7 @@ public class OrderCar {
     private OfferType offerType;
 
     @OneToOne(optional = true)
-    @JoinColumn(name = "oldCarId")
-    private OldCar tradeOldCar;
+    @JoinColumn(name = "old_car_id", referencedColumnName = "oldCarId")
+    private OldCar oldCar;
     private boolean subscriptionInsurance;
 }
