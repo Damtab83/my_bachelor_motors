@@ -122,10 +122,10 @@ public class OrderCarServiceTest {
         assertEquals(2, result.size());
         assertEquals(44L, result.get(0).id());
         assertEquals(OfferType.BUY, result.get(0).offerType());
-        assertEquals("FIAT", result.get(0).carId().brand());
+        assertEquals("FIAT", result.get(0).car().brand());
         assertEquals(55L, result.get(1).id());
         assertEquals(OfferType.RENT, result.get(1).offerType());
-        assertEquals("BMW", result.get(1).carId().brand());
+        assertEquals("BMW", result.get(1).car().brand());
     }
 
     @Test
@@ -143,7 +143,7 @@ public class OrderCarServiceTest {
         assertNotNull(result);
         assertEquals(55L, result.id());
         assertEquals(OfferType.RENT, result.offerType());
-        assertEquals("BMW", result.carId().brand());
+        assertEquals("BMW", result.car().brand());
 
         Mockito.verify(orderRepository).findById(55L);
         Mockito.verify(orderCarMapper).toResponseDto(order2);
