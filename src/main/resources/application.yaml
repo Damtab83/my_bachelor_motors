@@ -37,7 +37,9 @@ spring:
       ddl-auto: update
     show-sql: true
 server:
-  port: ${PORT:8080}
+  address: 0.0.0.0
+  port: ${PORT:10000}
+  #port: ${PORT:8080}
 app:
   secret-key: ${DB_SECRET_KEY}
   #secret-key: 07f612faa8eaadc715811e244a9d84fdd17eb4e2b1801983d173ee41e06caab4
