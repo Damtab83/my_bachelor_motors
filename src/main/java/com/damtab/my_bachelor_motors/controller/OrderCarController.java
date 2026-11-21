@@ -52,6 +52,10 @@ public class OrderCarController {
     //Create OrderCar
     @PostMapping
     public ResponseEntity<OrderCarResponseDto> createOrder(@RequestBody OrderCarRequestDto requestDto) {
+        log.info("==================================");
+        log.info("ORDER CAR CREATE Post commande reçu");
+        System.err.println("ORDER CAR CREATE Post commande reçu");
+        log.info("==================================");
         OrderCarResponseDto savedOrder = orderCarService.createOrder(requestDto);
         log.info("Requête POST terminée : commande ID={}",
                 savedOrder.id());

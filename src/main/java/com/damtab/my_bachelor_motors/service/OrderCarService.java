@@ -58,6 +58,11 @@ public class OrderCarService {
         log.info("Car ID reçu : {}", dto.carId());
         log.info("User ID reçu : {}", dto.userId());
 
+        log.info("==================================");
+        log.info("ORDER CAR CREATE Post commande APPELE");
+        System.err.println("ORDER CAR CREATE Post commande APPELE");
+        log.info("==================================");
+
         OrderCar orderCar = orderCarMapper.toEntity(dto);
 
         // Vérification des associations avant sauvegarde
