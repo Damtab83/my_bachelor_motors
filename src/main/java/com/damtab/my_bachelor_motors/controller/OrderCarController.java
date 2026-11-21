@@ -56,8 +56,7 @@ public class OrderCarController {
         OrderCarResponseDto savedOrder = orderCarService.createOrder(requestDto);
         log.info("Requête POST terminée : commande ID={}",
                 savedOrder.id());
-        System.err.println("Requête POST terminée : "+
-                savedOrder.id());
+        System.err.println("CONTROLLER V2 ATTEINT");
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .header("X-Test-Controller", "ORDER-CAR")
