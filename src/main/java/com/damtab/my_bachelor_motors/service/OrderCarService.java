@@ -50,18 +50,8 @@ public class OrderCarService {
     //Create OrderCar
     @Transactional
     public OrderCarResponseDto createOrder(OrderCarRequestDto dto) {
-//        OrderCar orderCar = orderCarMapper.toEntity(dto);
-//
-//        OrderCar savedOrder = orderCarRepository.save(orderCar);
-//        log.info("Commande créée avec succès. Identifiant : {}", savedOrder.getId());
-//        return orderCarMapper.toResponseDto(savedOrder);
         log.info("Car ID reçu : {}", dto.carId());
         log.info("User ID reçu : {}", dto.userId());
-
-        log.info("==================================");
-        log.info("ORDER CAR CREATE Post commande APPELE");
-        System.err.println("ORDER CAR CREATE Post commande APPELE");
-        log.info("==================================");
 
         OrderCar orderCar = orderCarMapper.toEntity(dto);
 
@@ -101,6 +91,7 @@ public class OrderCarService {
     }
 
     //Update OrderCar for change Buy to Rent and inverse
+    @Transactional
     public OrderCarResponseDto updateOrder(Long id, OrderCarRequestDto dto) {
         OrderCar existingOrder = orderCarRepository.findById(id)
                 .orElseThrow(() ->

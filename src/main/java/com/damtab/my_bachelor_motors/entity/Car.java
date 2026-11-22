@@ -1,7 +1,6 @@
 package com.damtab.my_bachelor_motors.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -36,9 +35,9 @@ public class Car {
             regexp = "[a-zA-Z0-9 -]+$"
     )
     private String motorisation;
-    @Max(7)
+
     private int kilometer;
-    @Max(6)
+
     private int price;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
