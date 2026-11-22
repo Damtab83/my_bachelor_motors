@@ -5,7 +5,6 @@ public record ImageCarResponseDto(
         Long imageCarId,
         String name,
         Long size,
-        String contentType,
-        byte[] imageData
+        String contentType
 ) {
 }

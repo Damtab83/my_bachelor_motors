@@ -13,7 +13,6 @@ public class DocumentMapper {
 
         document.setName(dto.name());
         document.setMimeType(dto.mimeType());
-        document.setContenu(dto.contenu());
 
         return document;
     }
@@ -22,8 +21,7 @@ public class DocumentMapper {
         return new DocumentResponseDto(
                 document.getId(),
                 document.getName(),
-                document.getMimeType(),
-                document.getContenu()
+                document.getMimeType()
         );
 
     }

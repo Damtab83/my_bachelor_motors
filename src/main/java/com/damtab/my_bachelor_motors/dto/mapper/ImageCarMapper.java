@@ -14,7 +14,6 @@ public class ImageCarMapper {
         imageCar.setName(dto.name());
         imageCar.setSize(dto.size());
         imageCar.setContentType(dto.contentType());
-        imageCar.setImageData(dto.imageData());
 
         return imageCar;
     }
@@ -24,8 +23,7 @@ public class ImageCarMapper {
                 imageCar.getImageCarId(),
                 imageCar.getName(),
                 imageCar.getSize(),
-                imageCar.getContentType(),
-                imageCar.getImageData()
+                imageCar.getContentType()
         );
     }
 }

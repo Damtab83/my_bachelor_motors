@@ -6,7 +6,6 @@ import jakarta.persistence.Lob;
 public record DocumentResponseDto(
         Long id,
         String name,
-        String mimeType,
-        byte[] contenu
+        String mimeType
 ) {
 }
