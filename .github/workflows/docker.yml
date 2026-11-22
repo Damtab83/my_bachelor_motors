@@ -45,6 +45,12 @@ jobs:
           images: ghcr.io/${{ github.repository }}
           tags: type=raw,value=latest
 
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Build et Push de l'image Docker
         uses: docker/build-push-action@v5
         with:
@@ -57,4 +63,11 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Redéployer sur Render
-        run: curl -fsS -X POST "${{ secrets.RENDER_DEPLOY_HOOK}}"
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK}}
+        run:  |
+          if [ -z "$RENDER_DEPLOY_HOOK" ]; then
+            echo "Le secret RENDER_DEPLOY_HOOK est vide ou absent"
+            exit 1
+          fi
+          curl -fsS -X POST "$RENDER_DEPLOY_HOOK"
