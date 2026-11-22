@@ -51,17 +51,14 @@ public class OrderCarController {
 
     //Create OrderCar
     @PostMapping
-    public ResponseEntity<String> createOrder(@RequestBody OrderCarRequestDto requestDto) {
-//        System.err.println("ORDER CAR CREATE Post commande reçu");
-//        OrderCarResponseDto savedOrder = orderCarService.createOrder(requestDto);
-//        log.info("Requête POST terminée : commande ID={}",
-//                savedOrder.id());
-//        System.err.println("CONTROLLER V2 ATTEINT");
+    public ResponseEntity<OrderCarResponseDto> createOrder(@RequestBody OrderCarRequestDto requestDto) {
+        OrderCarResponseDto savedOrder = orderCarService.createOrder(requestDto);
+       log.info("Requête POST terminée : commande ID={}",
+               savedOrder.id());
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .header("X-Test-Controller", "ORDER-CAR")
-//                .body(savedOrder);
-                .body("CONTROLLER_OK_V2");
+                .body(savedOrder);
     }
 
     //Delete OrderCar
